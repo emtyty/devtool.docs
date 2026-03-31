@@ -4,7 +4,11 @@ import cloudflare from '@astrojs/cloudflare';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 
+
+const WEBSITE_URL = 'https://coding4pizza.com';
 export default defineConfig({
+  site: WEBSITE_URL,
+  base: '/docs',
   adapter: cloudflare(),
   integrations: [
     starlight({

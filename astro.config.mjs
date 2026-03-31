@@ -1,9 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 
 export default defineConfig({
+  adapter: cloudflare(),
   integrations: [
     starlight({
       plugins: [starlightImageZoom()],

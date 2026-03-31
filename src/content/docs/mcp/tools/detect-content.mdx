@@ -1,0 +1,44 @@
+---
+title: detect_content
+description: Auto-detect the content type of an input string (JSON, SQL, JWT, cron, Base64, etc.) with a confidence score.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Auto-detect the content type of an input string (JSON, SQL, JWT, cron, Base64, etc.) with a confidence score.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/detect-content.ts` for the full parameter schema.

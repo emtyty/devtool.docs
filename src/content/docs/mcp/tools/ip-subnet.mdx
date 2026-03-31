@@ -1,0 +1,44 @@
+---
+title: ip_subnet
+description: Calculate IPv4 subnet details from CIDR notation — network address, broadcast, host range, and count.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Calculate IPv4 subnet details from CIDR notation — network address, broadcast, host range, and count.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/ip-subnet.ts` for the full parameter schema.

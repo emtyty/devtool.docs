@@ -1,0 +1,98 @@
+---
+title: Color Converter
+description: Convert colors between HEX, RGB, HSL, and OKLCH — with a visual picker, live preview, and WCAG AA/AAA contrast checker.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Color Converter translates any color between four color spaces in real time, and checks WCAG accessibility contrast ratios against white and black backgrounds.
+
+## Supported Input Formats
+
+| Format | Example |
+|--------|---------|
+| HEX (6-digit) | `#6366F1` |
+| HEX (3-digit shorthand) | `#639` |
+| HEX8 (with alpha) | `#6366F1CC` |
+| RGB | `rgb(99, 102, 241)` |
+| RGBA | `rgba(99, 102, 241, 0.8)` |
+| HSL | `hsl(239, 84%, 67%)` |
+| HSLA | `hsla(239, 84%, 67%, 0.8)` |
+| OKLCH | `oklch(0.6 0.2 240)` |
+| CSS named colors | `cornflowerblue`, `tomato`, `transparent` |
+
+## Output Formats (all shown at once)
+
+For input `#6366F1`:
+
+| Format | Value |
+|--------|-------|
+| HEX | `#6366F1` |
+| HEX8 | `#6366F1FF` |
+| RGB | `rgb(99, 102, 241)` |
+| RGBA | `rgba(99, 102, 241, 1)` |
+| HSL | `hsl(239, 84%, 67%)` |
+| HSLA | `hsla(239, 84%, 67%, 1)` |
+| OKLCH | `oklch(0.60 0.22 264)` |
+
+Click any value to copy it to clipboard.
+
+## WCAG Contrast Checker
+
+The tool shows contrast ratios against both **white** and **black** backgrounds, with WCAG grade badges:
+
+| Grade | Minimum contrast | Use case |
+|-------|-----------------|----------|
+| **AA** | 4.5:1 (normal text) | Required for most text |
+| **AA Large** | 3:1 (large text / UI) | Headings 18px+, UI components |
+| **AAA** | 7:1 (enhanced) | Maximum accessibility |
+
+### Example: Indigo `#6366F1`
+
+| Background | Ratio | AA | AAA |
+|-----------|-------|-----|-----|
+| White | 3.17:1 | FAIL | FAIL |
+| Black | 6.63:1 | PASS | PASS |
+
+→ Use white text on this indigo, not dark text.
+
+### Example: Dark gray `#374151`
+
+| Background | Ratio | AA | AAA |
+|-----------|-------|-----|-----|
+| White | 9.42:1 | PASS | PASS |
+| Black | 2.23:1 | FAIL | FAIL |
+
+→ This color is safe for text on white backgrounds.
+
+## Using the Color Picker
+
+Click the color swatch to open a native browser color picker. The picker only supports opaque colors — use the text input for colors with alpha transparency.
+
+## Examples
+
+### Tailwind CSS → OKLCH
+
+**Input:** `#6366F1` (Tailwind `indigo-500`)
+
+**OKLCH output:** `oklch(0.60 0.22 264)`
+
+OKLCH is the color space used by CSS Color Level 4 and is supported in modern browsers for wider gamut colors.
+
+---
+
+### Figma HSL → CSS RGB
+
+**Input:** `hsl(142, 71%, 45%)` (a green from a Figma design)
+
+**RGB output:** `rgb(33, 196, 93)`
+
+Use the RGB value directly in CSS or as a hex for older browser support.
+
+<Aside type="tip">
+Click **Example Data** to load a color and see all formats populated at once — useful for understanding the output before entering your own color.
+</Aside>
+
+## Related Tools
+
+- [Mock Data Generator](/tools/mock-data-generator) — generate random color values for test data

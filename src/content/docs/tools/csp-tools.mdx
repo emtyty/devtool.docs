@@ -1,0 +1,135 @@
+---
+title: CSP Tools
+description: Three tools in one — analyze a Content Security Policy header for security issues, parse browser console violations, and merge new domains into an existing CSP.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+CSP Tools helps you build, debug, and analyze Content Security Policy headers. It has three independent modes for different parts of the CSP workflow.
+
+## Mode 1 — Analyzer
+
+Evaluate a CSP header string for security weaknesses.
+
+### How to use
+
+1. Paste your CSP header value (just the header value, not the header name).
+2. The tool scores it and lists findings with severity levels.
+
+### Example
+
+**Input:**
+```
+default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.example.com; style-src 'self' 'unsafe-inline'; img-src *;
+```
+
+**Findings:**
+| Severity | Finding |
+|----------|---------|
+| HIGH | `script-src` contains `'unsafe-inline'` — allows inline script injection (XSS vector) |
+| HIGH | `img-src *` allows loading images from any origin (data exfiltration risk) |
+| MEDIUM | No `frame-ancestors` directive — clickjacking not mitigated |
+| MEDIUM | No `upgrade-insecure-requests` directive |
+| INFO | `default-src 'self'` is a good foundation |
+
+**Security grade:** C (findings reduce from A+)
+
+### Grade scale
+
+| Grade | Meaning |
+|-------|---------|
+| A+ | No issues detected |
+| A | Minor info findings only |
+| B | Medium findings present |
+| C–D | High severity findings |
+| F | Critical issues (e.g., `default-src *`) |
+
+---
+
+## Mode 2 — Issues (Console Violations)
+
+Parse browser console CSP violation messages into a structured list of blocked resources.
+
+### How to use
+
+1. Open the browser DevTools Console
+2. Load the page — violations appear as red console messages like:
+   ```
+   Refused to load the script 'https://cdn.example.com/tracker.js' because it violates the following Content Security Policy directive: "script-src 'self'"
+   ```
+3. Copy the console messages and paste them here
+
+### Output
+
+| Directive | Blocked URI | Source file |
+|-----------|-------------|-------------|
+| script-src | cdn.example.com/tracker.js | index.html:42 |
+| connect-src | api.analytics.com/collect | app.js:18 |
+| img-src | data:image/png;base64,... | styles.css:7 |
+
+Use this list to decide which domains to allowlist in your CSP — or which requests to remove.
+
+---
+
+## Mode 3 — Builder (Domain Merger)
+
+Add new domains to an existing CSP header without breaking the current directives.
+
+### How to use
+
+1. Paste your existing CSP in the top field.
+2. Paste a list of domains to add (one per line) in the bottom field.
+3. The tool merges the domains into the appropriate directives and outputs the updated CSP.
+
+### Example
+
+**Existing CSP:**
+```
+default-src 'self'; script-src 'self'; img-src 'self' data:;
+```
+
+**Domains to add:**
+```
+https://cdn.jsdelivr.net
+https://api.example.com
+https://storage.googleapis.com
+```
+
+**Output:**
+```
+default-src 'self';
+script-src 'self' https://cdn.jsdelivr.net;
+img-src 'self' data: https://storage.googleapis.com;
+connect-src 'self' https://api.example.com;
+```
+
+The tool infers which directive each domain belongs to based on the subdomain/path pattern.
+
+<Aside type="tip">
+**Typical workflow:**
+
+1. Deploy with a strict `default-src 'self'` policy
+2. Use Mode 2 to collect all violation messages from the browser console
+3. Use Mode 3 to merge the needed domains into your CSP
+4. Use Mode 1 to verify the result has no obvious security weaknesses
+</Aside>
+
+## CSP Directive Reference
+
+| Directive | Controls |
+|-----------|---------|
+| `default-src` | Fallback for all resource types |
+| `script-src` | JavaScript files and inline scripts |
+| `style-src` | CSS files and inline styles |
+| `img-src` | Images |
+| `connect-src` | Fetch, XHR, WebSocket |
+| `font-src` | Web fonts |
+| `frame-src` | Iframes |
+| `frame-ancestors` | Who can embed this page in an iframe |
+| `object-src` | Plugins (Flash, etc.) — set to `'none'` |
+| `base-uri` | Restricts `<base>` tag targets |
+| `form-action` | Where forms can submit to |
+
+## Related Tools
+
+- [Network Waterfall Analyzer](/tools/network-waterfall-analyzer) — inspect response headers from HAR files

@@ -1,0 +1,130 @@
+---
+title: File Converter
+description: Convert images (PNG, JPG, WebP, HEIC, PSD…), data formats (JSON, CSV, XML, YAML), and files to/from Base64 — with resize, quality, and watermark controls.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+File Converter handles three conversion categories: **Image** format conversion with resize/watermark, **Data** format conversion between structured formats, and **Encode** for Base64 encoding/decoding.
+
+## Image Conversion
+
+### Supported input formats
+PNG, JPG/JPEG, WebP, BMP, GIF, SVG, TIFF, HEIC, PSD, ICO, DDS, CUR, WBMP, HDR, AVIF
+
+### Supported output formats
+PNG, JPG, WebP, BMP, GIF, ICO, TIFF, AVIF, SVG (pass-through), and more
+
+### Resize Presets
+
+| Preset | Size |
+|--------|------|
+| Original | Keep source dimensions |
+| Web Hero | 1920 × 1080 |
+| Instagram Square | 1080 × 1080 |
+| Story | 1080 × 1920 |
+| Thumbnail | 320 × 320 |
+| Custom | Enter width × height |
+
+### Quality
+Adjust compression quality (1–100) for JPG and WebP outputs. PNG is lossless.
+
+### Watermark
+Add a text watermark with position (bottom-right, bottom-left, top-right, top-left, center) and opacity control.
+
+### Example: HEIC → WebP
+
+1. Drop your iPhone photo (`.heic`)
+2. Select **WebP** as output format
+3. Choose **Web Hero** preset (1920×1080)
+4. Set quality to 85
+5. Click **Convert** → download the WebP file
+
+## Data Format Conversion
+
+### Supported conversions
+
+| From | To |
+|------|----|
+| JSON | CSV, TSV, XML, YAML |
+| CSV | JSON, XML, YAML |
+| TSV | JSON, CSV, XML, YAML |
+| XML | JSON, CSV |
+| YAML | JSON, CSV |
+
+### Example: JSON → CSV
+
+**Input (JSON):**
+```json
+[
+  {"id": 1, "name": "Alice", "email": "alice@example.com"},
+  {"id": 2, "name": "Bob",   "email": "bob@example.com"}
+]
+```
+
+**Output (CSV):**
+```csv
+id,name,email
+1,Alice,alice@example.com
+2,Bob,bob@example.com
+```
+
+### CSV Options
+- **Delimiter:** comma `,` / semicolon `;` / pipe `|` / tab
+- **Quote character:** `"` (default) or `'`
+
+### Example: CSV → YAML
+
+**Input:**
+```csv
+name,role,active
+Alice,admin,true
+Bob,editor,false
+```
+
+**Output:**
+```yaml
+- name: Alice
+  role: admin
+  active: 'true'
+- name: Bob
+  role: editor
+  active: 'false'
+```
+
+## Base64 Encode / Decode
+
+### File → Base64
+
+Drop any file and get the Base64-encoded string. Useful for embedding images in CSS, HTML, or JSON payloads.
+
+**Output:**
+```
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
+```
+
+### Base64 → File
+
+Paste a Base64 string and download the decoded file.
+
+## File Size Limits
+
+| Category | Limit |
+|----------|-------|
+| Image | 50 MB |
+| Data | 20 MB |
+| Base64 encode | 30 MB |
+
+<Aside type="tip">
+Drag-and-drop multiple images for batch conversion. Each file appears as a card in the conversion queue with individual progress and download buttons.
+</Aside>
+
+<Aside type="note">
+HEIC conversion requires browser support for the HEIC format decoder bundled with DevToolKit. It works without any server upload — everything runs locally via WebAssembly.
+</Aside>
+
+## Related Tools
+
+- [Table Lens](/tools/table-lens) — inspect and edit CSV files after conversion
+- [Mock Data Generator](/tools/mock-data-generator) — generate test data in CSV or JSON
+- [Binary Metadata](/tools/binary-metadata) — view EXIF data from image files

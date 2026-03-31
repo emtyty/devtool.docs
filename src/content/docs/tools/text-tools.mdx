@@ -1,0 +1,114 @@
+---
+title: Text Tools
+description: Four developer-focused text utilities in one tool — CloudWatch Log Insights formatter, Base64 encoder/decoder, URL encoder/decoder, and Jira ticket link generator.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Text Tools packages four commonly-needed text transformations that don't warrant a full tool each.
+
+## Tab 1 — CloudWatch Log Insights
+
+Formats a list of CloudWatch log group names for use in an AWS Log Insights query.
+
+**Problem:** Log Insights queries require log group names with hyphens escaped as `\-` and groups joined with `|`.
+
+**Input** (one log group per line):
+```
+/aws/lambda/my-api-handler
+/aws/lambda/my-auth-service
+/aws/rds/prod-database
+```
+
+**Output** (ready to paste into Log Insights):
+```
+\/aws\/lambda\/my\-api\-handler|\/aws\/lambda\/my\-auth\-service|\/aws\/rds\/prod\-database
+```
+
+Paste the output into the **Log Groups** field of a CloudWatch Log Insights query.
+
+---
+
+## Tab 2 — Base64
+
+Encode any text to Base64, or decode a Base64 string back to text.
+
+### Encode
+
+**Input:** `Hello, World!`
+
+**Output:** `SGVsbG8sIFdvcmxkIQ==`
+
+### Decode
+
+**Input:** `SGVsbG8sIFdvcmxkIQ==`
+
+**Output:** `Hello, World!`
+
+**Unicode example:**
+
+**Input:** `日本語テスト`
+
+**Output:** `5pel5pys6KqW44OG44K544OI`
+
+<Aside type="tip">
+The tool uses UTF-8 encoding, so non-ASCII characters (Japanese, emoji, etc.) encode correctly. Many online Base64 tools fail on Unicode.
+</Aside>
+
+---
+
+## Tab 3 — URL Encode / Decode
+
+Encode text for safe use in URLs, or decode a URL-encoded string.
+
+### Encode
+
+**Input:** `Hello World! (special chars: &, %, =)`
+
+**Output:** `Hello%20World!%20(special%20chars%3A%20%26%2C%20%25%2C%20%3D)`
+
+### Decode
+
+**Input:** `user%40example.com%3Fpage%3D2%26limit%3D10`
+
+**Output:** `user@example.com?page=2&limit=10`
+
+**Use cases:**
+- Encode a query parameter value before appending to a URL
+- Decode a URL from a log file or network trace
+- Decode a double-encoded URL (`%2520` → `%20` → space)
+
+---
+
+## Tab 4 — Jira Ticket Links
+
+Generate formatted Jira ticket links from a list of ticket IDs and titles.
+
+**Configuration:**
+- **Base URL:** your Jira instance (e.g., `https://yourcompany.atlassian.net`)
+- **Project prefix:** e.g., `LH`, `PROJ`, `BE`
+
+**Input** (one ticket per line, format: `TICKET-ID Title`):
+```
+LH-101 Fix login button on mobile
+LH-205 Add dark mode toggle
+LH-310 Upgrade Node.js to v20
+```
+
+**Output:**
+```
+Fix login button on mobile (https://yourcompany.atlassian.net/browse/LH-101)
+Add dark mode toggle (https://yourcompany.atlassian.net/browse/LH-205)
+Upgrade Node.js to v20 (https://yourcompany.atlassian.net/browse/LH-310)
+```
+
+Paste the output into a Slack message, PR description, or release note.
+
+<Aside type="tip">
+The tool auto-detects the ticket prefix from the first line — you don't need to configure the prefix if it's included in your ticket IDs.
+</Aside>
+
+## Related Tools
+
+- [JWT Decoder](/tools/jwt-decoder) — decode Base64url-encoded JWT tokens
+- [Text Compare](/tools/text-compare) — diff two text blocks

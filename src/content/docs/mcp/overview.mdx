@@ -1,0 +1,43 @@
+---
+title: MCP Server Overview
+description: Use DevToolKit's 26 tools inside Claude, Cursor, VS Code, and other AI assistants via the Model Context Protocol.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+`devtoolkit-mcp` exposes all of DevToolKit's logic as a **Model Context Protocol (MCP) server**. Once connected, your AI assistant can call any of the 26 tools directly — no copy-pasting between windows.
+
+## 26 Tools, 5 Categories
+
+<CardGrid>
+  <Card title="Data Transform (9)" icon="document">
+    repair_json, format_sql, format_list, clean_list, generate_mock_data, csv_transform, yaml_json, json_to_types, generate_diagram
+  </Card>
+  <Card title="Decode & Parse (6)" icon="open-book">
+    decode_jwt, parse_cron, convert_epoch, convert_color, url_parse, http_status
+  </Card>
+  <Card title="Crypto & Random (4)" icon="random">
+    hash_text, encode_decode, uuid_generate, password_generate
+  </Card>
+  <Card title="Dev Utilities (6)" icon="setting">
+    regex_test, number_base_convert, diff_text, string_case, ip_subnet, timestamp_calc
+  </Card>
+  <Card title="Smart Detection (1)" icon="magnifier">
+    detect_content
+  </Card>
+</CardGrid>
+
+## Quick Install
+
+```bash
+# Claude Desktop / Claude Code
+npx devtoolkit-mcp
+```
+
+See [Setup & Installation](/mcp/setup) for full configuration instructions per client.
+
+## Why Use MCP Tools?
+
+When you ask an AI to hash a string, generate a UUID, or calculate a subnet, it guesses. The MCP tools give **deterministic, correct results** using the same implementations as the browser app.
+
+→ [Why MCP vs Native AI?](/mcp/why-mcp)

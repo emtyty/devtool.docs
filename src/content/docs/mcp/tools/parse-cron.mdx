@@ -1,0 +1,44 @@
+---
+title: parse_cron
+description: Parse a cron expression into a human-readable description and list the next N run times.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Parse a cron expression into a human-readable description and list the next N run times.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/parse-cron.ts` for the full parameter schema.

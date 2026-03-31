@@ -1,0 +1,44 @@
+---
+title: format_list
+description: Convert a plain-text list into SQL IN, VALUES, UNION ALL, JSON array, or CSV.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Convert a plain-text list into SQL IN, VALUES, UNION ALL, JSON array, or CSV.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/format-list.ts` for the full parameter schema.

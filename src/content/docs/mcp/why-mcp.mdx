@@ -1,0 +1,51 @@
+---
+title: Why MCP vs Native AI?
+description: When to reach for a DevToolKit MCP tool instead of letting the AI answer directly.
+---
+
+## The Precision Gap
+
+AI language models are excellent at understanding intent and generating code — but they **estimate** factual computations. When you ask Claude to:
+
+- "Hash this string with SHA-256" → it may guess the output
+- "Generate a UUID" → it generates a plausible but not cryptographically-random value
+- "What's the CIDR range for 192.168.1.0/26?" → it may calculate wrong
+
+MCP tools give **deterministic, correct results** every time, using the same implementation as the browser app.
+
+## Comparison
+
+| Task | Native AI | MCP Tool |
+|------|-----------|----------|
+| SHA-256 hash | Estimated (often wrong) | Exact |
+| UUID/ULID generation | Plausible, not cryptographic | Crypto-random |
+| Subnet calculation | May miscalculate | Exact CIDR math |
+| Regex matching | Describes, may miss edge cases | Runs the regex |
+| Date math / timezone | Estimated | Exact |
+| JSON → TypeScript interface | Good, may miss nested types | Handles all nesting |
+| CSV filtering/aggregation | Re-describes the data | Actually filters |
+| Text diff | Describes changes | Actual LCS diff |
+
+## When to Use MCP Tools
+
+Reach for an MCP tool when the answer must be:
+
+- **Exact** — hashing, encoding, UUID generation, subnet math
+- **Reproducible** — given the same input, always get the same output
+- **Based on your actual data** — diff, CSV transform, JSON extraction
+
+## When Native AI Is Fine
+
+- Explaining what a cron expression means (conceptual)
+- Suggesting what SQL to write
+- Describing what a JWT payload contains
+- Any task where approximate is good enough
+
+## Example Prompts
+
+```
+Hash "hello world" with SHA-256        → uses hash_text
+Generate 10 UUIDs v4                   → uses uuid_generate
+What's the broadcast address of 10.0.0.0/22?  → uses ip_subnet
+Convert this CSV: keep only rows where status = "active"  → uses csv_transform
+```

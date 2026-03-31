@@ -1,0 +1,43 @@
+---
+title: Claude Desktop
+description: Connect devtoolkit-mcp to Claude Desktop on macOS or Windows.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Configuration File Location
+
+| OS | Path |
+|----|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+
+## Configuration
+
+Add the following to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "devtoolkit": {
+      "command": "npx",
+      "args": ["devtoolkit-mcp"]
+    }
+  }
+}
+```
+
+## Verify Connection
+
+Restart Claude Desktop, then start a new conversation and ask:
+
+```
+Use devtoolkit to generate 5 UUID v4 values.
+```
+
+Claude should call `uuid_generate` and return the result.
+
+## Troubleshooting
+
+- **Server not found**: Make sure Node.js 18+ is installed and `npx` is on your PATH
+- **Tool calls failing**: Run `npx devtoolkit-mcp` in a terminal to see startup errors

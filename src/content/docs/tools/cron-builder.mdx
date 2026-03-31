@@ -1,0 +1,110 @@
+---
+title: Cron Builder
+description: Build, parse, and validate cron expressions using a visual editor or raw text — with human-readable descriptions and next run time previews.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Cron Builder helps you construct cron expressions without memorizing the syntax. Switch between a visual field editor and raw text input — they stay in sync bidirectionally.
+
+## Cron Expression Format
+
+```
+┌───────── minute (0–59)
+│ ┌───────── hour (0–23)
+│ │ ┌───────── day of month (1–31)
+│ │ │ ┌───────── month (1–12 or JAN–DEC)
+│ │ │ │ ┌───────── day of week (0–6 or SUN–SAT)
+│ │ │ │ │
+* * * * *
+```
+
+## Two Input Modes
+
+### Text mode
+Type the expression directly. The visual builder syncs to match.
+
+### Visual builder
+Configure each of the 5 fields independently:
+
+| Mode | Syntax | Means |
+|------|--------|-------|
+| **Every** | `*` | Every value in this field |
+| **Specific** | `1,3,5` | At exact values |
+| **Range** | `1-5` | From value to value |
+| **Interval** | `*/15` | Every N units |
+
+## Common Expressions
+
+| Expression | Description |
+|------------|-------------|
+| `* * * * *` | Every minute |
+| `0 * * * *` | Every hour at :00 |
+| `0 9 * * *` | Every day at 9:00 AM |
+| `0 9 * * 1-5` | Weekdays at 9:00 AM |
+| `0 0 1 * *` | First day of every month at midnight |
+| `*/15 * * * *` | Every 15 minutes |
+| `0 0 * * 0` | Every Sunday at midnight |
+| `30 6 1,15 * *` | 6:30 AM on the 1st and 15th of every month |
+| `0 2 * * 1` | Every Monday at 2:00 AM |
+
+## Presets
+
+Click the **Presets** dropdown for quick-select common patterns:
+- Every minute
+- Every hour
+- Every day at midnight
+- Every weekday at 9 AM
+- Every Monday morning
+- First day of the month
+
+## Example: Build "Every weekday at 9 AM"
+
+**Visual builder:**
+- Minute: Specific → `0`
+- Hour: Specific → `9`
+- Day of month: Every → `*`
+- Month: Every → `*`
+- Day of week: Range → `1` to `5`
+
+**Generated expression:** `0 9 * * 1-5`
+
+**Description:** "At 09:00 AM, Monday through Friday"
+
+**Next 5 runs:**
+```
+Mon, 01 Jan 2025 09:00:00
+Tue, 02 Jan 2025 09:00:00
+Wed, 03 Jan 2025 09:00:00
+Thu, 04 Jan 2025 09:00:00
+Fri, 05 Jan 2025 09:00:00
+```
+
+---
+
+## Example: Every 15 minutes during business hours
+
+**Expression:** `*/15 9-17 * * 1-5`
+
+**Description:** "Every 15 minutes, between 9 AM and 5 PM, Monday through Friday"
+
+## Cron Syntax Quick Reference
+
+| Symbol | Meaning | Example |
+|--------|---------|---------|
+| `*` | Every value | `* * * * *` |
+| `,` | Multiple values | `1,3,5` |
+| `-` | Range | `1-5` |
+| `/` | Step/interval | `*/15` or `1-30/5` |
+
+<Aside type="tip">
+The **next run times** panel shows the next 10 scheduled executions, so you can verify the expression does what you expect before deploying it.
+</Aside>
+
+<Aside type="note">
+DevToolKit uses standard 5-field cron (minute to day-of-week). It does not support 6-field cron with seconds, or the non-standard `@reboot` / `@weekly` aliases.
+</Aside>
+
+## Related Tools
+
+- [Epoch Converter](/tools/epoch-converter) — convert a scheduled run time to/from a Unix timestamp

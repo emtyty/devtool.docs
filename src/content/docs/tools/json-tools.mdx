@@ -1,0 +1,172 @@
+---
+title: JSON Tools
+description: Format, minify, auto-repair, diff, tree-view, and generate TypeScript interfaces from JSON — all in one tool with four tabs.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+JSON Tools is a multi-purpose JSON workbench with four tabs: **Format**, **Diff**, **TS Types**, and **Unescape**.
+
+---
+
+## Format Tab
+
+### Beautify
+Paste or import a JSON file. The tool auto-beautifies on paste.
+
+**Input (minified):**
+```json
+{"user":{"id":1,"name":"Alice","roles":["admin","editor"],"active":true}}
+```
+
+**Output (2-space indent):**
+```json
+{
+  "user": {
+    "id": 1,
+    "name": "Alice",
+    "roles": [
+      "admin",
+      "editor"
+    ],
+    "active": true
+  }
+}
+```
+
+### Indent Options
+- 2 spaces (default)
+- 4 spaces
+- Tab character
+
+### View Modes
+- **Text** — syntax-highlighted JSON code
+- **Tree** — collapsible tree explorer (auto-expands 2 levels)
+- **String** — the JSON serialized as an escaped string
+
+### Auto-Fix (jsonrepair)
+Click **Auto Fix** to repair common JSON errors:
+- Trailing commas: `{"a": 1,}` → `{"a": 1}`
+- Single quotes: `{'key': 'value'}` → `{"key": "value"}`
+- Unquoted keys: `{key: value}` → `{"key": "value"}`
+- JavaScript comments (`// ...`, `/* ... */`)
+- Missing closing brackets
+
+**Broken input:**
+```
+{name: 'Alice', roles: ['admin', 'editor',], active: true}
+```
+
+**After Auto Fix:**
+```json
+{
+  "name": "Alice",
+  "roles": ["admin", "editor"],
+  "active": true
+}
+```
+
+---
+
+## Diff Tab
+
+Compare two JSON objects and see exactly what changed.
+
+**Before:**
+```json
+{
+  "name": "Alice",
+  "age": 30,
+  "roles": ["admin"]
+}
+```
+
+**After:**
+```json
+{
+  "name": "Alice",
+  "age": 31,
+  "roles": ["admin", "editor"],
+  "email": "alice@example.com"
+}
+```
+
+**Diff result:**
+- `age`: changed `30` → `31`
+- `roles[1]`: added `"editor"`
+- `email`: added `"alice@example.com"`
+
+Diff types: **added** (emerald), **removed** (red), **changed** (amber).
+
+---
+
+## TS Types Tab
+
+Generate TypeScript interfaces from any JSON value.
+
+**Input:**
+```json
+{
+  "id": 1,
+  "user": {
+    "name": "Alice",
+    "email": "alice@example.com",
+    "roles": ["admin", "editor"]
+  },
+  "createdAt": "2024-01-15T10:30:00Z",
+  "active": true
+}
+```
+
+**Output:**
+```typescript
+interface Root {
+  id: number;
+  user: User;
+  createdAt: string;
+  active: boolean;
+}
+
+interface User {
+  name: string;
+  email: string;
+  roles: string[];
+}
+```
+
+### Type Inference Rules
+- Numbers → `number`
+- Strings → `string`
+- Booleans → `boolean`
+- `null` → `null`
+- Objects → named interface (PascalCase from key name)
+- Arrays → `T[]` (type inferred from first non-null element)
+- Mixed arrays → `unknown[]`
+
+---
+
+## Unescape Tab
+
+Paste a JSON string that has been double-serialized or escaped, and get the clean version.
+
+**Input (escaped JSON string):**
+```
+"{\"name\":\"Alice\",\"age\":30}"
+```
+
+**Output (unescaped):**
+```json
+{
+  "name": "Alice",
+  "age": 30
+}
+```
+
+<Aside type="tip">
+Use `Ctrl+V` to paste — the Format tab auto-beautifies immediately. Use the **Swap** button in the Diff tab to reverse Before/After in one click.
+</Aside>
+
+## Related Tools
+
+- [JSON Extractor](/tools/json-extractor) — pull a flat list of values from JSON by path
+- [Data Formatter](/tools/data-formatter) — convert extracted values to SQL

@@ -1,0 +1,33 @@
+---
+title: Cursor
+description: Connect devtoolkit-mcp to Cursor IDE.
+---
+
+## Configuration File
+
+Edit `~/.cursor/mcp.json` (create it if it doesn't exist):
+
+```json
+{
+  "mcpServers": {
+    "devtoolkit": {
+      "command": "npx",
+      "args": ["devtoolkit-mcp"]
+    }
+  }
+}
+```
+
+## Enable in Cursor Settings
+
+1. Open **Cursor Settings** → **Features** → **MCP**
+2. Confirm `devtoolkit` appears in the server list
+3. Toggle it on if not already enabled
+
+## Verify
+
+In the Cursor chat panel (Agent mode), ask:
+
+```
+Hash the string "test" with MD5 using devtoolkit.
+```

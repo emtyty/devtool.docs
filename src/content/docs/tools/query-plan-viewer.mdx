@@ -1,0 +1,109 @@
+---
+title: Query Plan Viewer
+description: Visualize SQL Server execution plans as an interactive tree, identify expensive operations and missing indexes, and get AI-powered optimization advice via Gemini.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Query Plan Viewer parses SQL Server execution plan XML (`.sqlplan`) and renders it as an interactive node tree with cost analysis, red flag detection, and optional AI-powered explanations.
+
+## How to Get an Execution Plan
+
+**SQL Server Management Studio (SSMS):**
+1. Open a query in SSMS
+2. Click **Include Actual Execution Plan** (Ctrl+M) or **Display Estimated Execution Plan** (Ctrl+L)
+3. After execution, right-click the plan → **Save Execution Plan As…** → save as `.sqlplan`
+
+**Azure Data Studio:**
+1. Run a query with **Explain** enabled
+2. Right-click the plan → **Save Plan**
+
+## How to Use It
+
+1. **Paste** the XML plan into the input, or **upload** a `.sqlplan` file.
+2. Click **Analyze** (or use the **Load Sample** button to see a demo plan).
+3. Navigate the four tabs: **Plan Tree**, **Analysis**, **AI Insights**, **Code**.
+
+## Tab 1 — Plan Tree
+
+An interactive tree showing the execution plan nodes. Each node displays:
+- Operator name (e.g., Hash Match, Nested Loops, Index Seek)
+- Estimated vs actual rows
+- Subtree cost percentage (larger % = more expensive)
+- Color-coded cost indicators
+
+### Operator color coding
+
+| Color | Operators | Meaning |
+|-------|-----------|---------|
+| Blue | Nested Loops, Hash Match | Join operations |
+| Orange | Index Scan, Table Scan | Potentially expensive reads |
+| Red | Table Scan (full scan) | High-cost, no index used |
+| Green | Index Seek | Efficient lookup |
+| Slate | Sort, Spool, Compute Scalar | Support operations |
+
+### Red flags
+
+The viewer automatically detects and highlights:
+
+| Flag | Severity | What it means |
+|------|----------|--------------|
+| **Table Scan** | High | No index used — reads entire table |
+| **Memory Grant Warning** | High | Sort/hash spilled to disk |
+| **Key Lookup** | Medium | Missing included columns in index |
+| **Implicit Conversion** | Medium | Type mismatch prevents index use |
+| **Nested Loops with large outer** | Medium | Potential N+1 performance issue |
+| **High-cost operator** | Medium | Operator accounts for >20% of total cost |
+
+## Tab 2 — Analysis
+
+Summary statistics for the query plan:
+
+| Metric | Description |
+|--------|-------------|
+| **Total cost** | Estimated total query cost |
+| **Missing indexes** | Index suggestions extracted from the plan XML |
+| **Execution mode** | Row mode vs Batch mode |
+| **Memory grant** | Estimated memory allocation |
+| **Parallelism** | Whether the plan uses parallel execution |
+
+### Missing index example
+
+The analysis panel shows the suggested index definition directly from the plan:
+
+```sql
+CREATE NONCLUSTERED INDEX [MissingIndex]
+ON [dbo].[Orders] ([Status], [UserId])
+INCLUDE ([Total], [CreatedAt])
+```
+
+## Tab 3 — AI Insights (Gemini)
+
+Get a plain-English explanation of the execution plan and actionable optimization recommendations powered by Google Gemini.
+
+<Aside type="note">
+**AI Insights requires a Gemini API key.** Enter your key in the API key field — it is stored only in your browser's localStorage and never sent to any server other than Google's Gemini API directly. The feature is completely opt-in.
+</Aside>
+
+AI output includes:
+- Plain-English summary of what the query does and how SQL Server executes it
+- Explanation of the most expensive operators
+- Specific index recommendations with rationale
+- Query rewrite suggestions where applicable
+
+## Tab 4 — Code
+
+Raw XML view of the execution plan — useful for manual inspection or sharing with colleagues.
+
+## Example: N+1 Loop Problem
+
+**Plan shows:** Nested Loops operator with outer side returning 50,000 rows
+
+**Red flag:** "Nested Loops: outer child has 50,000 estimated rows — consider a Hash Match join strategy"
+
+**AI recommendation:** "Add a covering index on the inner table's join key to reduce key lookups, or rewrite the query using a JOIN instead of a correlated subquery."
+
+## Related Tools
+
+- [SQL Formatter](/tools/sql-formatter) — format the query before generating a plan
+- [Log Analyzer](/tools/log-analyzer) — analyze slow query logs

@@ -1,0 +1,104 @@
+---
+title: Epoch Converter
+description: Convert Unix timestamps (seconds or milliseconds) to human-readable dates and back — with 400+ timezone support and relative time display.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Epoch Converter works in both directions: timestamp → date and date → timestamp. It auto-detects seconds vs milliseconds and supports any IANA timezone.
+
+## Two Modes
+
+### Epoch → Date
+Paste a Unix timestamp and see the full breakdown:
+- Detected unit (seconds or milliseconds)
+- Equivalent in the other unit
+- ISO 8601 (UTC)
+- Human-readable in selected timezone
+- Relative time ("3 days ago", "in 2 hours")
+
+### Date → Epoch
+Paste a date string and get the Unix timestamp in both seconds and milliseconds.
+
+## Auto-Detection: Seconds vs Milliseconds
+
+| Digits | Interpretation | Example |
+|--------|---------------|---------|
+| 10 digits | Seconds | `1700000000` |
+| 13 digits | Milliseconds | `1700000000000` |
+
+## Examples
+
+### Epoch → Date
+
+**Input:** `1700000000`
+
+**Output:**
+```
+Input detected as: Seconds
+Milliseconds:  1700000000000
+Seconds:       1700000000
+ISO 8601:      2023-11-15T00:53:20.000Z
+UTC:           Wed, 15 Nov 2023 00:53:20 GMT
+Local (UTC+7): Wed, 15 Nov 2023 07:53:20 ICT
+Relative:      about 1 year ago
+```
+
+---
+
+**Input:** `1700000000000` (milliseconds)
+
+**Output:**
+```
+Input detected as: Milliseconds
+Seconds:       1700000000
+ISO 8601:      2023-11-15T00:53:20.000Z
+```
+
+---
+
+### Date → Epoch
+
+**Input:** `2024-06-15T14:30:00Z`
+
+**Output:**
+```
+Epoch (seconds):      1718461800
+Epoch (milliseconds): 1718461800000
+```
+
+**Input:** `January 15, 2025 09:00 AM`
+
+**Output:**
+```
+Epoch (seconds):      1736931600
+Epoch (milliseconds): 1736931600000
+```
+
+## Timezone Support
+
+Search from 400+ IANA timezones (e.g., `America/New_York`, `Asia/Tokyo`, `Europe/London`). Common timezones are pinned at the top for quick access.
+
+The timezone affects the "Local" display row — the ISO 8601 (UTC) value is always timezone-independent.
+
+## Current Time Card
+
+The top of the page shows the current Unix timestamp in seconds and milliseconds, updating every second. Click any value to copy it.
+
+<Aside type="tip">
+Paste a timestamp from a log file (even one embedded in a longer string like `"ts":1700000000`) — the converter extracts the 10- or 13-digit number automatically.
+</Aside>
+
+## Common Epoch Values
+
+| Date | Epoch (seconds) |
+|------|----------------|
+| 2000-01-01 00:00:00 UTC | 946684800 |
+| 2024-01-01 00:00:00 UTC | 1704067200 |
+| 2025-01-01 00:00:00 UTC | 1735689600 |
+| 2030-01-01 00:00:00 UTC | 1893456000 |
+
+## Related Tools
+
+- [Log Analyzer](/tools/log-analyzer) — parse log files containing timestamps
+- [Cron Builder](/tools/cron-builder) — build schedules and preview next run times

@@ -1,0 +1,40 @@
+---
+title: VS Code (Copilot)
+description: Connect devtoolkit-mcp to VS Code via the GitHub Copilot MCP integration.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Configuration File
+
+Create `.vscode/mcp.json` in your project root (or edit it if it exists):
+
+```json
+{
+  "servers": {
+    "devtoolkit": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["devtoolkit-mcp"]
+    }
+  }
+}
+```
+
+<Aside type="note">
+  VS Code uses `servers` (not `mcpServers`) and requires a `type` field.
+</Aside>
+
+## Enable Agent Mode
+
+1. Open GitHub Copilot Chat
+2. Switch to **Agent** mode (the dropdown next to the input)
+3. Click the **Tools** icon — `devtoolkit` tools should appear
+
+## Verify
+
+In Agent mode, ask:
+
+```
+Convert #ff6b6b to HSL using devtoolkit.
+```

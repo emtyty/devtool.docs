@@ -1,0 +1,96 @@
+---
+title: Log Analyzer
+description: Parse, filter, and visualize log files — with automatic format detection, log level normalization, keyword search, and a timeline chart.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Log Analyzer parses raw log files from any common format, normalizes log levels, and lets you filter by level and keyword. The timeline bar chart gives you an at-a-glance view of error distribution over time.
+
+## Supported Log Formats
+
+Log Analyzer auto-detects the format — no configuration needed.
+
+| Format | Example line |
+|--------|-------------|
+| **ISO 8601** | `2024-01-15T10:30:00Z ERROR connection timeout` |
+| **Bracket timestamp** | `[2024-01-15T10:30:00] WARN retry attempt 3` |
+| **Space-separated datetime** | `2024-01-15 10:30:00 INFO request completed` |
+| **Syslog** | `Jan 15 10:30:00 hostname app[1234]: ERROR message` |
+| **Apache access log** | `192.168.1.1 - - [15/Jan/2024:10:30:00 +0000] "GET / HTTP/1.1" 200 1234` |
+| **JSON structured log** | `{"timestamp":"2024-01-15T10:30:00Z","level":"ERROR","message":"..."}` |
+| **Prefix only** | `ERROR: connection refused` or `[WARN] slow query detected` |
+
+## Log Level Normalization
+
+Common level aliases are normalized to standard levels:
+
+| Standard level | Aliases |
+|---------------|---------|
+| **ERROR** | FATAL, CRITICAL, SEVERE |
+| **WARN** | WARNING |
+| **INFO** | NOTICE |
+| **DEBUG** | DBG, FINE |
+| **TRACE** | VERBOSE, FINER, FINEST |
+
+## How to Use It
+
+1. **Paste** log content or **upload** a `.log` / `.txt` file.
+2. The tool parses all lines and shows the level breakdown.
+3. Use the **level filter** buttons (ERROR / WARN / INFO / DEBUG / TRACE) to show only relevant lines.
+4. Use the **search box** to filter by keyword (debounced, 300ms).
+5. The **timeline chart** shows error distribution over time — spikes indicate incidents.
+
+## Example
+
+**Input log:**
+```
+2024-01-15T09:00:01Z INFO  Server started on port 8080
+2024-01-15T09:00:15Z INFO  Database connected
+2024-01-15T09:01:03Z WARN  Slow query detected: 2300ms (threshold: 1000ms)
+2024-01-15T09:01:45Z ERROR Connection pool exhausted
+2024-01-15T09:01:46Z ERROR Failed to process request: timeout
+2024-01-15T09:01:47Z ERROR Failed to process request: timeout
+2024-01-15T09:02:10Z WARN  Retry succeeded after 3 attempts
+2024-01-15T09:05:00Z INFO  Health check OK
+```
+
+**Level breakdown:**
+- ERROR: 3
+- WARN: 2
+- INFO: 3
+
+**Filter ERROR** → shows the 3 error lines with their timestamps.
+
+**Search "timeout"** → shows the 2 "Failed to process request: timeout" lines.
+
+## Multiline Log Support
+
+Lines without a timestamp or log level prefix are appended to the previous entry as continuation lines. This handles Java stack traces, Python tracebacks, and multi-line JSON payloads embedded in logs.
+
+**Example:**
+```
+2024-01-15T09:01:45Z ERROR Unhandled exception
+    java.lang.RuntimeException: Connection refused
+        at com.example.Service.connect(Service.java:88)
+        at com.example.Service.init(Service.java:42)
+```
+
+This becomes a single ERROR entry with the full stack trace as the message body.
+
+## Timeline Chart
+
+The chart groups log entries by time bucket and shows the count per level (ERROR, WARN, INFO). Useful for spotting when incidents started and how long they lasted.
+
+<Aside type="tip">
+For stack traces embedded in log files, switch to [Stack Trace Formatter](/tools/stack-trace-formatter) to get syntax-highlighted frame output with user-code filtering.
+</Aside>
+
+## Performance
+
+Log Analyzer uses virtual scrolling (row height 32px, 10-row overscan) — files with 100,000+ lines scroll without lag.
+
+## Related Tools
+
+- [Stack Trace Formatter](/tools/stack-trace-formatter) — parse individual stack traces from logs
+- [Network Waterfall Analyzer](/tools/network-waterfall-analyzer) — analyze HTTP request logs from HAR files

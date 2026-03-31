@@ -1,0 +1,44 @@
+---
+title: uuid_generate
+description: Generate cryptographically-random UUID v4, UUID v7, NanoID, or ULID values.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Generate cryptographically-random UUID v4, UUID v7, NanoID, or ULID values.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/uuid-generate.ts` for the full parameter schema.

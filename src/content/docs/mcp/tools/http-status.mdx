@@ -1,0 +1,44 @@
+---
+title: http_status
+description: Look up HTTP status codes, common headers, and MIME types with RFC references.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Look up HTTP status codes, common headers, and MIME types with RFC references.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/http-status.ts` for the full parameter schema.

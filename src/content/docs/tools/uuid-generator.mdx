@@ -1,0 +1,72 @@
+---
+title: UUID / ULID Generator
+description: Bulk-generate cryptographically-random UUID v4, time-ordered UUID v7, classic UUID v1, and sortable ULIDs — in multiple output formats.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+UUID Generator creates batches of unique identifiers up to 1,000 at a time, in the format and structure you need.
+
+## ID Types
+
+| Type | Example | When to use |
+|------|---------|-------------|
+| **UUID v4** (Random) | `550e8400-e29b-41d4-a716-446655440000` | General purpose, most common |
+| **UUID v7** (Time-ordered) | `018e3b2a-4e0a-7c33-b8f0-b9d3e4a4f2c1` | Database primary keys (index-friendly) |
+| **UUID v1** (Time-based) | `6ba7b810-9dad-11d1-80b4-00c04fd430c8` | Legacy compatibility |
+| **ULID** (Sortable) | `01ARZ3NDEKTSV4RRFFQ69G5FAV` | Human-readable, lexicographically sortable |
+
+<Aside type="tip">
+Use **UUID v7** or **ULID** for database primary keys. They are time-ordered, so sequential inserts don't cause B-tree index fragmentation the way random v4 UUIDs do.
+</Aside>
+
+## Output Formats
+
+### One per line (default)
+```
+550e8400-e29b-41d4-a716-446655440000
+f47ac10b-58cc-4372-a567-0e02b2c3d479
+6ba7b810-9dad-11d1-80b4-00c04fd430c8
+```
+
+### JSON array
+```json
+[
+  "550e8400-e29b-41d4-a716-446655440000",
+  "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+]
+```
+
+### SQL IN clause
+```sql
+IN (
+  '550e8400-e29b-41d4-a716-446655440000',
+  'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+  '6ba7b810-9dad-11d1-80b4-00c04fd430c8'
+)
+```
+
+### CSV
+```
+550e8400-e29b-41d4-a716-446655440000, f47ac10b-58cc-4372-a567-0e02b2c3d479, 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+```
+
+## Count
+
+Use the **slider** (1–100) or type directly into the number input (1–1,000). The output regenerates automatically when you change the type or count.
+
+## UUID v4 vs ULID
+
+| Feature | UUID v4 | ULID |
+|---------|---------|------|
+| Format | 36-char hyphenated | 26-char uppercase |
+| Sortable | No | Yes (time-ordered) |
+| Human-friendly | Moderate | Better |
+| DB index performance | Poor (random) | Good (sequential) |
+| Standard | RFC 4122 | ULID spec |
+
+## Related Tools
+
+- [Data Formatter](/tools/data-formatter) — convert a list of UUIDs to SQL IN / VALUES
+- [Mock Data Generator](/tools/mock-data-generator) — generate UUIDs as part of a larger dataset

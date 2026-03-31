@@ -1,0 +1,34 @@
+---
+title: Claude Code (CLI)
+description: Connect devtoolkit-mcp to Claude Code for use in all your projects.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## User-Scope Install (All Projects)
+
+Run this once to add devtoolkit-mcp to every Claude Code session:
+
+```bash
+claude mcp add devtoolkit -- npx devtoolkit-mcp
+```
+
+## Project-Scope Install
+
+To add it only to the current project (stored in `.mcp.json`):
+
+```bash
+claude mcp add --scope project devtoolkit -- npx devtoolkit-mcp
+```
+
+## Verify
+
+```bash
+claude mcp list
+```
+
+You should see `devtoolkit` in the list. In a session, run `/mcp` to confirm the server status.
+
+<Aside type="tip">
+  Use `claude mcp remove devtoolkit` to uninstall.
+</Aside>

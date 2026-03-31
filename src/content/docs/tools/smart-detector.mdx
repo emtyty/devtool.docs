@@ -1,0 +1,67 @@
+---
+title: Smart Detector
+description: Paste anything — JSON, SQL, JWT, cron, timestamp, color — and Smart Detector identifies it and routes you to the right tool automatically.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Smart Detector is the default landing page. Instead of guessing which tool to open, paste or drop your content and it identifies the format, shows a confidence score, and navigates to the correct tool automatically.
+
+## How It Works
+
+<Steps>
+1. **Paste** with `Ctrl+V`, or **drag-and-drop** a file onto the page.
+2. Detection runs instantly — Smart Detector scores your input against 15+ format patterns.
+3. If the top match reaches **≥ 90% confidence**, the app navigates to the right tool with your content pre-loaded.
+4. Below 90%, a **ranked suggestion list** appears — click any tool to open it manually.
+</Steps>
+
+## Detectable Formats
+
+| Format | Example input | Confidence |
+|--------|--------------|------------|
+| JWT | `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.sig` | 98% |
+| JSON | `{"key": "value", "arr": [1,2,3]}` | 95% |
+| SQL query | `SELECT id FROM users WHERE active = 1` | 90%+ |
+| Cron expression | `0 9 * * 1-5` | 95% |
+| Unix epoch (s) | `1700000000` (10 digits) | 95% |
+| Unix epoch (ms) | `1700000000000` (13 digits) | 95% |
+| HEX color | `#6366F1` | 95% |
+| RGB/HSL color | `rgb(99, 102, 241)` | 90% |
+| Stack trace | Java / JS / Python / Go / .NET / Ruby | 50–95% |
+| Markdown | Text with `# headings`, `**bold**`, fences | 80–90% |
+| CSV / list | Comma- or newline-separated values | 50–85% |
+| Log lines | ISO timestamps, syslog, Apache, JSON logs | 75–92% |
+| SQL execution plan | XML with `ShowPlanXML` | 95%+ |
+| CSP header | `default-src 'self'; script-src ...` | 85–95% |
+| Mermaid | `graph TD;` / `sequenceDiagram` | 95% |
+| Base64 | `SGVsbG8gV29ybGQ=` (20+ chars, valid charset) | 85% |
+
+## Examples
+
+**JWT input** → auto-navigates to JWT Decoder:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+**Cron input** → auto-navigates to Cron Builder:
+```
+0 9 * * 1-5
+```
+
+**SQL input** → auto-navigates to SQL Formatter:
+```sql
+SELECT u.id, u.name, o.total
+FROM users u JOIN orders o ON o.user_id = u.id
+WHERE u.active = 1
+```
+
+## Tips
+
+<Aside type="tip">
+Drop any binary file (image, PDF, video) onto the page — Smart Detector routes it to **Binary Metadata** and starts extracting EXIF/XMP data immediately.
+</Aside>
+
+<Aside type="tip">
+If your input matches multiple formats (e.g., a JSON string that also looks like a list), the ranked suggestion list lets you choose which tool to open.
+</Aside>

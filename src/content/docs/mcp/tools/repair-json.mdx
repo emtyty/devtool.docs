@@ -1,0 +1,44 @@
+---
+title: repair_json
+description: Fix malformed JSON — missing quotes, trailing commas, comments, and more.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Fix malformed JSON — missing quotes, trailing commas, comments, and more.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/repair-json.ts` for the full parameter schema.

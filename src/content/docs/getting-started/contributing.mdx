@@ -1,0 +1,67 @@
+---
+title: Contributing
+description: How to add a new tool, fix a bug, or improve the docs.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## Adding a New Tool
+
+<Steps>
+
+1. **Create the component** in `components/YourTool.tsx`
+
+   - Functional component, default export
+   - Business logic goes in `utils/yourTool.ts` (pure functions, no React)
+   - Use Tailwind utility classes — no CSS modules or inline styles
+
+2. **Add the route slug** in `App.tsx`
+
+   ```typescript
+   // Add to the AppMode union type
+   type AppMode = ... | 'yourtool';
+
+   // Add to MODE_TO_SLUG
+   const MODE_TO_SLUG = { ..., yourtool: 'your-tool' };
+   ```
+
+3. **Register with React.lazy()**
+
+   ```typescript
+   const YourTool = lazy(() => import('./components/YourTool'));
+   ```
+
+4. **Add a sidebar entry** in `NAV_SECTIONS`
+
+   ```typescript
+   { id: 'yourtool', label: 'Your Tool', icon: <IconName size={16} /> }
+   ```
+
+5. **Add to the render chain** and `FOOTER_TOOLS`
+
+6. **Write tests** in `tests/unit/` (Vitest) or `tests/integration/`
+
+</Steps>
+
+## Coding Rules
+
+The `.coding-rules/` directory contains 18 detailed rule files. Key rules:
+
+- Functional components only — no class components
+- All tools lazy-loaded via `React.lazy()` + `Suspense`
+- No global state — `useState` + `localStorage` only
+- Run `npm run format` before committing (Prettier)
+- Run `npm run type-check` and `npm run lint` before submitting a PR
+
+## Running Tests
+
+```bash
+npm run test           # Vitest unit + integration tests
+npm run test:e2e       # Playwright end-to-end tests
+npm run type-check     # TypeScript type check
+npm run lint           # ESLint
+```
+
+<Aside type="tip">
+  The fastest feedback loop: `npm run test:watch` keeps Vitest running and re-runs tests on file save.
+</Aside>

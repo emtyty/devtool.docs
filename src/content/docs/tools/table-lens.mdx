@@ -1,0 +1,86 @@
+---
+title: Table Lens
+description: Import CSV or XLSX files, filter by column values, inline-edit cells, batch-update rows, and export the result — optimized for files with tens of thousands of rows.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Table Lens is a fast, browser-based spreadsheet viewer and editor. It uses virtual scrolling to handle large files without freezing, and lets you filter, edit, and export data without any server upload.
+
+## How to Use It
+
+1. **Drop or upload** a CSV, TSV, or XLSX file.
+2. Use **column filters** to narrow rows (dropdown of distinct values per column).
+3. **Click any cell** to edit it inline.
+4. Use **Batch Update** to update all filtered rows in a column at once.
+5. **Download CSV** to export the modified data.
+
+## Supported Input Formats
+
+| Format | Notes |
+|--------|-------|
+| CSV | Comma-separated, with auto-detection of delimiter |
+| TSV | Tab-separated |
+| XLSX | Excel files (first sheet) |
+
+## Performance
+
+Table Lens uses **virtual scrolling** — only the ~30 rows visible on screen are rendered at any time. Files with 50,000+ rows open and scroll smoothly.
+
+## Filtering
+
+Each column header has a **filter icon**. Click it to open a dropdown of distinct values in that column. Select one or more values to filter the table.
+
+- Filters are combined with AND across columns
+- The distinct-value list is computed lazily (only loaded when you open the dropdown)
+- Search box inside the dropdown for columns with many unique values
+- Pagination: 60 values per page in the dropdown
+
+**Example:** Filter `Status = active` AND `Region = EU` → shows only EU active users.
+
+## Inline Editing
+
+Click any cell to start editing. Press **Enter** or click outside to confirm. Press **Escape** to cancel.
+
+Edited cells are highlighted so you can see what changed before exporting.
+
+## Batch Update
+
+Select multiple rows using the checkboxes on the left, then use **Batch Update** to set a column value for all selected rows at once.
+
+**Example workflow:**
+1. Filter `Status = pending`
+2. Select all filtered rows (checkbox in header)
+3. Batch Update `Status` column → set to `active`
+4. Download CSV with changes applied
+
+## Find Distinct Values
+
+Open the filter dropdown for any column to see all unique values and their counts. Useful for data profiling — spotting typos, empty values, or unexpected categories.
+
+## Export
+
+Click **Download CSV** to export the current view (with edits applied) as a properly-escaped CSV file. The export includes all rows, not just the currently visible filtered set.
+
+<Aside type="tip">
+Use Table Lens to clean up a CSV from [Mock Data Generator](/tools/mock-data-generator) or [File Converter](/tools/file-converter) before importing it into a database.
+</Aside>
+
+<Aside type="note">
+There is no undo for batch updates. Use **Download CSV** frequently to save snapshots of your progress.
+</Aside>
+
+## Example: Clean a messy export
+
+**Scenario:** You exported 10,000 users from your CRM. The `country` column has inconsistent values: `US`, `USA`, `United States`.
+
+1. Open the `country` filter → see all 3 variants
+2. Filter `country = US` → select all rows → Batch Update → `United States`
+3. Repeat for `USA`
+4. Download clean CSV
+
+## Related Tools
+
+- [File Converter](/tools/file-converter) — convert XLSX to CSV, or CSV to JSON
+- [Mock Data Generator](/tools/mock-data-generator) — generate test CSV data
+- [Data Formatter](/tools/data-formatter) — convert a column of IDs to SQL IN

@@ -1,0 +1,56 @@
+---
+title: Quick Start
+description: Get DevToolKit running in under two minutes — online or locally.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## Option 1 — Use Online (No Install)
+
+Visit the live app and start using any tool immediately. Nothing to install.
+
+## Option 2 — Run Locally
+
+<Steps>
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/emtyty/devtool.git
+   cd devtool
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the dev server**
+
+   ```bash
+   npm run dev
+   ```
+
+   The app opens at `http://localhost:3000`.
+
+4. **Build for production**
+
+   ```bash
+   npm run build
+   ```
+
+   Output goes to `dist/`. Serve it with any static host.
+
+</Steps>
+
+<Aside type="tip">
+  Run `npm run docs:dev` to start this documentation site locally at `http://localhost:4321`.
+</Aside>
+
+## Your First Tool
+
+1. Open the app — it lands on **Smart Detector**
+2. Paste any content (a JSON blob, a JWT token, a cron expression, a Unix timestamp…)
+3. Smart Detector identifies the content type and shows a **"Open in …"** button
+4. Click it to jump straight to the right tool with your content pre-loaded

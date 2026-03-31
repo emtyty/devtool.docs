@@ -1,0 +1,87 @@
+---
+title: PDF Editor
+description: Edit text inline, reorder or delete pages, and export a new PDF — entirely in your browser with no upload required.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+PDF Editor lets you make lightweight edits to PDF files directly in your browser. Text is editable in-place, pages can be reordered by drag-and-drop, and the result exports as a new PDF.
+
+## What You Can Do
+
+| Feature | How |
+|---------|-----|
+| **Edit text** | Click any text on the page to edit it inline |
+| **Reorder pages** | Drag thumbnails in the sidebar to change page order |
+| **Delete pages** | Hover a thumbnail and click the trash icon |
+| **Export** | Click **Save PDF** to download the edited document |
+
+## How to Use It
+
+1. **Drop or upload** a PDF file onto the drop zone.
+2. The sidebar shows **page thumbnails** — drag to reorder.
+3. The main area renders the selected page. **Click any text** to edit it.
+4. Edited text is shown with a white background overlay over the original.
+5. When done, click **Save PDF** to download the new file.
+
+## Text Editing
+
+- Click a text block to focus it (the div becomes editable in-place)
+- Type to replace the text
+- Press **Enter** to confirm and move to the next block, or click elsewhere
+- Press **Escape** to cancel changes
+- Edited blocks are highlighted with a white background so you can see what changed
+
+### CJK and International Text
+
+The editor supports Japanese, Korean, Chinese, and other non-Latin scripts. Fonts embedded in the PDF are used directly for display — the overlay matches the original font family.
+
+<Aside type="note">
+When saving the PDF, edited text is re-drawn using standard PDF fonts (Helvetica, Times, Courier). The visual appearance may differ slightly from the original embedded font, especially for CJK scripts.
+</Aside>
+
+## Page Reorder
+
+The sidebar on the left shows all pages as thumbnails. Drag any thumbnail to a new position. The page order updates immediately in both the sidebar and the main editor.
+
+## Page Delete
+
+Hover a thumbnail — a red **trash icon** appears in the top-right corner. Click it to delete that page. Deleted pages cannot be recovered (save a copy first).
+
+## Export
+
+Click **Save PDF** to download the modified document. The exported file:
+- Contains pages in the reordered sequence
+- Has edited text re-drawn over white rectangles (original text is masked)
+- Preserves all non-edited pages exactly as they appeared
+
+## Example: Fix a typo in a PDF
+
+1. Open a PDF contract
+2. Click the text containing the typo
+3. Correct the text
+4. Click **Save PDF**
+5. The downloaded PDF has the corrected text
+
+## Example: Remove confidential pages
+
+1. Open a report PDF (e.g., 20 pages)
+2. In the sidebar, hover the confidential pages and click the trash icon
+3. Reorder remaining pages if needed by dragging thumbnails
+4. Click **Save PDF** — the downloaded file has only the kept pages
+
+<Aside type="tip">
+A yellow dot appears on the thumbnail of any page with text edits. Use this to track which pages have changes before exporting.
+</Aside>
+
+## Limitations
+
+- **Font fidelity:** Exported text uses standard PDF fonts — custom or embedded fonts are approximated
+- **Layout:** Only text content can be edited — images, form fields, and graphics are preserved but not editable
+- **No OCR:** Scanned PDFs (image-only content) have no selectable text and cannot be edited
+- **Large files:** Very large PDFs (100+ pages) may take a moment to load all thumbnails
+
+## Related Tools
+
+- [Binary Metadata](/tools/binary-metadata) — view metadata from a PDF file
+- [File Converter](/tools/file-converter) — convert between file formats

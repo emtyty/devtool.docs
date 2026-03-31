@@ -1,0 +1,40 @@
+---
+title: Introduction
+description: What DevToolKit is, why it exists, and what you can do with it.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+DevToolKit is a collection of **25+ developer tools** that run entirely in your browser — no server, no account, no tracking.
+
+## What It Solves
+
+Developer workflows involve constant context-switching: formatting a JSON blob, decoding a JWT, building a cron expression, converting a timestamp. Most online tools for these tasks upload your data to a server, wrap it in ads, and track your usage.
+
+DevToolKit does none of that. Every tool runs locally using browser APIs and WebAssembly.
+
+## What's Inside
+
+<CardGrid>
+  <Card title="Format & Parse" icon="document">
+    SQL Formatter, JSON Tools, Data Formatter, List Cleaner, Markdown Preview, Stack Trace Formatter, JSON Extractor, Smart Detector
+  </Card>
+  <Card title="Generate & Convert" icon="random">
+    Mock Data Generator, UUID/ULID Generator, Epoch Converter, Color Converter, Cron Builder, Diagram Generator, File Converter, Table Lens, PDF Editor
+  </Card>
+  <Card title="Decode & Analyze" icon="magnifier">
+    JWT Decoder, Text Tools, Text Compare, Log Analyzer, Network Waterfall Analyzer, Binary Metadata, Query Plan Viewer, CSP Tools
+  </Card>
+  <Card title="MCP Server" icon="puzzle">
+    26 tools exposed via the Model Context Protocol so AI assistants (Claude, Cursor, VS Code Copilot) can call them directly.
+  </Card>
+</CardGrid>
+
+## How to Navigate
+
+Open the app and paste or type anything into **Smart Detector** — it auto-routes your content to the right tool. Or use the sidebar to go directly to any tool by name.
+
+## Related
+
+- [Quick Start](/getting-started/quick-start) — run DevToolKit locally in 2 minutes
+- [MCP Server Overview](/mcp/overview) — use DevToolKit tools inside your AI assistant

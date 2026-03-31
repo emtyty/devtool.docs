@@ -1,0 +1,82 @@
+---
+title: Setup & Installation
+description: Install devtoolkit-mcp and connect it to your AI client.
+---
+
+import { Steps, Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+## Requirements
+
+- Node.js 18 or higher
+- An MCP-compatible AI client (Claude Desktop, Claude Code, Cursor, VS Code with Copilot)
+
+## Option 1 — npx (Recommended, No Install)
+
+Use `npx` to always run the latest version without a global install:
+
+```json
+{
+  "mcpServers": {
+    "devtoolkit": {
+      "command": "npx",
+      "args": ["devtoolkit-mcp"]
+    }
+  }
+}
+```
+
+## Option 2 — Global Install
+
+```bash
+npm install -g devtoolkit-mcp
+```
+
+Then use `devtoolkit-mcp` as the command instead of `npx devtoolkit-mcp`.
+
+## Option 3 — Run from Source
+
+<Steps>
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/emtyty/devtool.git
+   cd devtool
+   ```
+
+2. Install MCP dependencies
+
+   ```bash
+   cd mcp && npm install
+   ```
+
+3. Build the MCP server
+
+   ```bash
+   npm run build
+   ```
+
+4. Use the built output as your command
+
+   ```bash
+   node /path/to/devtool/mcp/dist/index.js
+   ```
+
+</Steps>
+
+## Verify the Server Works
+
+```bash
+npm run mcp:inspect
+```
+
+This opens the MCP Inspector UI where you can call any tool interactively.
+
+## Per-Client Configuration
+
+See the integration pages for copy-paste config snippets:
+
+- [Claude Desktop](/mcp/integrations/claude-desktop)
+- [Claude Code (CLI)](/mcp/integrations/claude-code)
+- [Cursor](/mcp/integrations/cursor)
+- [VS Code](/mcp/integrations/vscode)

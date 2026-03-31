@@ -1,17 +1,22 @@
 {
-  "name": "docs",
+  "name": "devtoolkit-docs",
+  "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "astro dev --port 4321",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "astro preview --port 4322",
+    "check": "astro check",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.38.2",
-    "astro": "^6.0.1",
-    "sharp": "^0.34.2"
+    "@astrojs/starlight": "^0.28.0",
+    "astro": "^4.16.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.2",
+    "zod": "^3.24.0"
   }
 }

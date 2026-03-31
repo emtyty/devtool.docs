@@ -1,0 +1,101 @@
+---
+title: Network Waterfall Analyzer
+description: Upload a HAR file and visualize HTTP request timing as a waterfall chart — with cache analysis, compression stats, duplicate detection, and cURL export.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Network Waterfall Analyzer visualizes the HTTP request timeline from a HAR (HTTP Archive) file — the same format exported by Chrome DevTools, Firefox, and other browser dev tools.
+
+## How to Get a HAR File
+
+**Chrome / Edge:**
+1. Open DevTools (`F12`) → **Network** tab
+2. Reproduce the page load or user action
+3. Right-click any request → **Save all as HAR with content**
+
+**Firefox:**
+1. Open DevTools → **Network** tab
+2. Click the ⚙️ gear icon → **Save All As HAR**
+
+## How to Use It
+
+1. **Drop the `.har` file** onto the upload zone, or click to browse.
+2. The waterfall chart renders immediately.
+3. Use **filters** to narrow by URL, method, or status code.
+4. Click any request row to expand its timing breakdown.
+5. Use the **curl** button on any request to copy it as a `curl` command.
+
+## Waterfall Chart
+
+Each request is shown as a horizontal bar spanning its timeline. The bar is color-coded by timing phase:
+
+| Phase | Color | What it measures |
+|-------|-------|-----------------|
+| **Blocked** | Gray | Time waiting for connection slot |
+| **DNS** | Purple | DNS lookup time |
+| **Connect** | Orange | TCP connection establishment |
+| **SSL** | Yellow | TLS handshake |
+| **Send** | Blue | Request sending time |
+| **TTFB** | Green | Time to first byte (server processing) |
+| **Download** | Teal | Response download time |
+
+## Summary Metrics
+
+| Metric | What it shows |
+|--------|--------------|
+| **Total duration** | Time from first to last request |
+| **Request count** | Total number of requests |
+| **Total size** | Combined response size |
+| **Gzip savings** | Bytes saved vs uncompressed size |
+
+## Filtering
+
+| Filter | Description |
+|--------|-------------|
+| URL pattern | Filter by URL substring or regex |
+| HTTP method | GET, POST, PUT, DELETE, etc. |
+| Status code | 2xx success, 3xx redirect, 4xx error, 5xx server error |
+| Keyword | Search in URL, headers, or response body |
+
+## Performance Insights
+
+The analyzer automatically flags:
+
+| Issue | Detection method |
+|-------|-----------------|
+| **Missing cache headers** | No `Cache-Control`, `Last-Modified`, or `ETag` |
+| **Uncompressed responses** | No `Content-Encoding: gzip/br/deflate` |
+| **Slow requests** | TTFB > 500ms |
+| **Duplicate requests** | Same URL requested more than once |
+| **Blocking resources** | Render-blocking JS/CSS in the critical path |
+
+## cURL Export
+
+Click the **curl** icon on any request row to copy it as a ready-to-run `curl` command, including headers, cookies, and request body.
+
+**Example output:**
+```bash
+curl 'https://api.example.com/users?page=1&limit=20' \
+  -H 'Authorization: Bearer eyJhbGci...' \
+  -H 'Content-Type: application/json' \
+  --compressed
+```
+
+## Example Analysis
+
+**Scenario:** Page load is slow. After uploading the HAR:
+
+1. The waterfall shows a JS bundle taking 1.4s to download
+2. The insights panel flags it as uncompressed (no gzip header)
+3. Three API calls show 600ms+ TTFB — server-side bottleneck
+4. Two fonts are loaded twice (duplicate detection)
+
+<Aside type="tip">
+Sort the waterfall by **TTFB** to immediately see which requests your server is slowest at responding to.
+</Aside>
+
+## Related Tools
+
+- [Log Analyzer](/tools/log-analyzer) — analyze server-side log files
+- [CSP Tools](/tools/csp-tools) — analyze security headers in network responses

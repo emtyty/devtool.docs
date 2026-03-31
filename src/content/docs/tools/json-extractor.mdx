@@ -1,0 +1,108 @@
+---
+title: JSON Extractor
+description: Extract a flat list of values from JSON by dot-notation path — auto-traverses nested arrays and objects.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+JSON Extractor lets you pull a specific field from every item in a JSON array using a dot-notation path, then copy the result as a plain list for use in SQL, code, or other tools.
+
+## How to Use It
+
+1. Paste your JSON in the left panel.
+2. Enter a dot-notation path (e.g. `user.id`).
+3. The right panel shows all matching values, one per line.
+4. Copy and paste into [Data Formatter](/tools/data-formatter) to turn it into SQL IN / VALUES.
+
+## Path Syntax
+
+| Path | Extracts |
+|------|----------|
+| `id` | Top-level `id` from each item |
+| `user.email` | Nested `email` inside `user` object |
+| `address.city` | City from nested address |
+| `tags` | The `tags` array itself (stringified) |
+
+The extractor automatically traverses arrays — you do not need to add `[*]` or index notation.
+
+## Examples
+
+### Simple flat field
+
+**Input:**
+```json
+[
+  {"id": 101, "name": "Alice"},
+  {"id": 102, "name": "Bob"},
+  {"id": 103, "name": "Carol"}
+]
+```
+
+**Path:** `id`
+
+**Output:**
+```
+101
+102
+103
+```
+
+### Nested field
+
+**Input:**
+```json
+[
+  {"user": {"id": 1, "email": "alice@example.com"}},
+  {"user": {"id": 2, "email": "bob@example.com"}},
+  {"user": {"id": 3, "email": "carol@example.com"}}
+]
+```
+
+**Path:** `user.email`
+
+**Output:**
+```
+alice@example.com
+bob@example.com
+carol@example.com
+```
+
+### Deeply nested with array of objects
+
+**Input:**
+```json
+{
+  "orders": [
+    {"id": "ORD-001", "customer": {"name": "Alice"}},
+    {"id": "ORD-002", "customer": {"name": "Bob"}},
+    {"id": "ORD-003", "customer": {"name": "Carol"}}
+  ]
+}
+```
+
+**Path:** `orders.customer.name`
+
+**Output:**
+```
+Alice
+Bob
+Carol
+```
+
+## Workflow: API Response → SQL Query
+
+1. Copy a JSON API response
+2. Paste into JSON Extractor
+3. Enter path `data.id`
+4. Copy the resulting list of IDs
+5. Open [Data Formatter](/tools/data-formatter)
+6. Paste the IDs → output: `IN ('id1', 'id2', 'id3')`
+
+<Aside type="tip">
+If your path returns array values, each array element is listed as a separate line. Nested arrays are flattened automatically.
+</Aside>
+
+## Related Tools
+
+- [JSON Tools](/tools/json-tools) — format, repair, and inspect JSON before extracting
+- [Data Formatter](/tools/data-formatter) — convert the extracted list to SQL

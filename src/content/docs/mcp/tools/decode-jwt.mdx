@@ -1,0 +1,44 @@
+---
+title: decode_jwt
+description: Decode a JWT token — returns the header, payload, and expiration status.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Decode a JWT token — returns the header, payload, and expiration status.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/decode-jwt.ts` for the full parameter schema.

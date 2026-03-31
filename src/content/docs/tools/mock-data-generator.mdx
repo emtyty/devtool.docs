@@ -1,0 +1,107 @@
+---
+title: Mock Data Generator
+description: Generate realistic fake data in JSON, CSV, TSV, XML, or YAML — using 60+ field types from Faker.js with custom constraints and weighted distributions.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Mock Data Generator creates realistic test datasets for development, demos, and testing. Configure field types, set constraints, and export to any format instantly.
+
+## How to Use It
+
+1. Click **Add Field** to add a column to your schema.
+2. Give each field a name and choose a type from the dropdown.
+3. Set optional constraints (min/max, date range, custom values).
+4. Set the **row count** (1–10,000).
+5. Choose an **output format** (JSON, CSV, TSV, XML, YAML).
+6. Click **Generate** and copy or download the result.
+
+## Field Categories & Types
+
+| Category | Types |
+|----------|-------|
+| **Basic** | UUID, Number, Boolean, Custom List |
+| **Personal** | First Name, Last Name, Full Name, Email, Phone, Username, Password, Job Title, Avatar URL |
+| **Location** | Street Address, City, State, Country, Zip Code, Coordinates (lat/lng) |
+| **Date & Time** | Date, Time, DateTime, Past Date, Future Date |
+| **Business** | Company Name, Department, Industry, BS phrase |
+| **Commerce** | Product Name, Price, Category, Color |
+| **Finance** | Credit Card Number, IBAN, BIC/SWIFT, Currency Code |
+| **Internet** | URL, IP Address (v4/v6), User Agent, MAC Address |
+| **Text** | Word, Sentence, Paragraph, Lorem Ipsum |
+| **System** | Filename, File Extension, MIME Type, Directory Path |
+| **Vehicle** | VIN, Make, Model |
+| **Animal** | Animal type |
+
+## Field Options
+
+### Number field
+- **Min** and **Max** bounds
+- **Weighted distribution** — `10=80,20=15,50=5` means 80% of values will be `10`, 15% will be `20`, 5% will be `50`
+
+### Date field
+- **From** and **To** date range (ISO strings)
+- Example: `from: 2020-01-01` `to: 2024-12-31`
+
+### Custom List
+- Comma-separated values: `Red,Green,Blue,Yellow`
+- Values are chosen randomly from the list
+
+## Output Formats
+
+### JSON
+```json
+[
+  {"id": "a1b2c3d4", "name": "Alice Johnson", "email": "alice@example.com", "age": 28},
+  {"id": "e5f6g7h8", "name": "Bob Smith", "email": "bob@example.com", "age": 34},
+  {"id": "i9j0k1l2", "name": "Carol Davis", "email": "carol@example.com", "age": 22}
+]
+```
+
+### CSV
+```csv
+id,name,email,age
+a1b2c3d4,Alice Johnson,alice@example.com,28
+e5f6g7h8,Bob Smith,bob@example.com,34
+```
+
+### XML
+```xml
+<records>
+  <record>
+    <id>a1b2c3d4</id>
+    <name>Alice Johnson</name>
+    <email>alice@example.com</email>
+    <age>28</age>
+  </record>
+</records>
+```
+
+## Example: User table seed
+
+**Schema:**
+| Field | Type | Options |
+|-------|------|---------|
+| id | UUID | — |
+| full_name | Full Name | — |
+| email | Email | — |
+| role | Custom List | `admin,editor,viewer` |
+| age | Number | min: 18, max: 65 |
+| signup_date | Date | from: 2022-01-01, to: 2024-12-31 |
+
+**100 rows → JSON** gives you a ready-to-import seed file for your database.
+
+## Example: Weighted status field
+
+**Custom List with weights:** `active=70,suspended=20,pending=10`
+
+In 1000 rows: ~700 will be `active`, ~200 `suspended`, ~100 `pending`.
+
+<Aside type="tip">
+Use dot notation for nested fields: name the field `address.city` and the JSON output will have `{"address": {"city": "..."}}`. Works up to any depth.
+</Aside>
+
+## Related Tools
+
+- [Table Lens](/tools/table-lens) — import and inspect generated CSV files
+- [Data Formatter](/tools/data-formatter) — convert a generated ID list to SQL

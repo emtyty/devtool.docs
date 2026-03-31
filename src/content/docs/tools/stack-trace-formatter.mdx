@@ -1,0 +1,100 @@
+---
+title: Stack Trace Formatter
+description: Parse and syntax-highlight stack traces from JavaScript, Java, Python, C#/.NET, Go, and Ruby — with a "user code only" filter to cut through framework noise.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Stack Trace Formatter parses raw stack traces, syntax-highlights each frame, and optionally hides internal framework / library frames so you can focus on your own code.
+
+## Supported Languages
+
+| Language | Example frame |
+|----------|--------------|
+| **JavaScript / Node.js** | `at processRequest (server.js:42:15)` |
+| **Java** | `at com.example.Service.process(Service.java:88)` |
+| **Python** | `File "app/views.py", line 42, in handle_request` |
+| **C# / .NET** | `at MyApp.Api.Controller.Get() in Controller.cs:line 42` |
+| **Go** | `goroutine 1 [running]: main.handleRequest(...)` |
+| **Ruby** | `from app/controllers/users_controller.rb:42:in 'index'` |
+
+Language is auto-detected and shown as a badge above the output.
+
+## View Modes
+
+- **All frames** — shows the complete stack trace
+- **User code only** — hides internal frames (node_modules, java.*, System.*, runtime/goexit, site-packages, etc.)
+
+Toggle with the eye icon in the top-right.
+
+## Examples
+
+### JavaScript error
+
+**Input:**
+```
+TypeError: Cannot read properties of undefined (reading 'id')
+    at getUserById (src/services/userService.js:23:18)
+    at async resolveUser (src/resolvers/user.js:11:20)
+    at async processTicksAndRejections (node:internal/process/task_queues:95:5)
+```
+
+**Formatted output** (color-coded):
+- `TypeError` → red, bold
+- `getUserById` → blue, bold
+- `src/services/userService.js` → slate
+- `:23:18` → orange
+- `async processTicksAndRejections` → dimmed (internal frame)
+
+**User code only** hides `processTicksAndRejections (node:internal/...)`.
+
+---
+
+### Java exception chain
+
+**Input:**
+```
+java.lang.RuntimeException: Failed to connect
+    at com.example.db.Pool.getConnection(Pool.java:88)
+    at com.example.service.UserService.findUser(UserService.java:42)
+    at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+Caused by: java.net.ConnectException: Connection refused
+    at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:184)
+```
+
+**User code only** hides `org.springframework.*` and `java.net.*` frames, keeping only your application code.
+
+---
+
+### Python traceback
+
+**Input:**
+```
+Traceback (most recent call last):
+  File "app/views.py", line 42, in get_user
+    user = User.objects.get(pk=user_id)
+  File "/usr/local/lib/python3.11/site-packages/django/db/models/manager.py", line 85, in get
+    return self.get_queryset().get(*args, **kwargs)
+django.core.exceptions.ObjectDoesNotExist: User matching query does not exist.
+```
+
+**User code only** shows only `app/views.py:42` and hides `site-packages/django/...`.
+
+## Frame Statistics
+
+The status bar shows:
+- Total frames in the trace
+- Your code frames (user code)
+- Library / internal frames
+
+<Aside type="tip">
+Paste a trace that has literal `\n` escape sequences (copied from a JSON log field) — the tool converts them to real newlines automatically before parsing.
+</Aside>
+
+<Aside type="tip">
+Click **Load Sample** for a realistic demo .NET exception chain to explore the formatter without needing a real error.
+</Aside>
+
+## Related Tools
+
+- [Log Analyzer](/tools/log-analyzer) — analyze full log files containing many errors

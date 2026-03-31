@@ -1,0 +1,44 @@
+---
+title: json_to_types
+description: Generate TypeScript interfaces, Zod schemas, or JSON Schema from a JSON value.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Generate TypeScript interfaces, Zod schemas, or JSON Schema from a JSON value.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/json-to-types.ts` for the full parameter schema.

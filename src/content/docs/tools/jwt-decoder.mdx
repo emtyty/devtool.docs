@@ -1,0 +1,121 @@
+---
+title: JWT Decoder
+description: Decode JWT tokens and inspect the header, payload, and signature — with automatic timestamp annotation and expiration status.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+JWT Decoder decodes any JSON Web Token and displays its three parts with syntax highlighting. Time-based claims are automatically annotated with human-readable dates.
+
+## How to Use It
+
+1. Paste a JWT token into the input field.
+2. The tool splits it into **Header**, **Payload**, and **Signature** tabs.
+3. Timestamp claims (`exp`, `iat`, `nbf`) are annotated with readable dates.
+4. A status badge shows **VALID** or **EXPIRED** based on the `exp` claim.
+
+## JWT Structure
+
+A JWT has three Base64url-encoded parts separated by dots:
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+### Header (algorithm & type)
+```json
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+Common `alg` values: `HS256`, `HS384`, `HS512`, `RS256`, `RS384`, `RS512`, `ES256`, `none`
+
+### Payload (claims)
+
+**Example:**
+```json
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "roles": ["admin", "editor"],
+  "iat": 1516239022,
+  "exp": 1735689600,
+  "nbf": 1516239022
+}
+```
+
+**Annotated output:**
+```json
+{
+  "sub": "1234567890",      // Subject
+  "name": "John Doe",
+  "email": "john@example.com",
+  "roles": ["admin", "editor"],
+  "iat": 1516239022,        // Issued At: Jan 18, 2018 01:30:22 UTC
+  "exp": 1735689600,        // Expires At: Jan 01, 2025 00:00:00 UTC ✓ VALID
+  "nbf": 1516239022         // Not Before: Jan 18, 2018 01:30:22 UTC
+}
+```
+
+## Standard Claims Reference
+
+| Claim | Full name | Description |
+|-------|-----------|-------------|
+| `sub` | Subject | User ID or subject of the token |
+| `iss` | Issuer | Who issued the token |
+| `aud` | Audience | Who the token is intended for |
+| `exp` | Expiration | Token expiry (Unix timestamp) |
+| `nbf` | Not Before | Token not valid before this time |
+| `iat` | Issued At | When the token was issued |
+| `jti` | JWT ID | Unique identifier for this token |
+
+## Expiration Status
+
+If the token has an `exp` claim:
+- **VALID** (green) — current time is before `exp`
+- **EXPIRED** (red) — current time is after `exp`
+
+If there is no `exp` claim, no badge is shown.
+
+## Signature
+
+The Signature tab shows the raw Base64url-encoded signature string.
+
+<Aside type="caution">
+The signature cannot be verified client-side without the secret key. JWT Decoder only decodes the payload — it does not confirm the token is authentic. Always verify tokens server-side before trusting them.
+</Aside>
+
+## Example: Auth0 token
+
+**Input:**
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UZzBOVGt3T1RVd09UWXdNREEwTkEifQ.eyJpc3MiOiJodHRwczovL2V4YW1wbGUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDEyMzQ1Njc4OTAiLCJhdWQiOiJteS1hcGkiLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MTcwMDA4NjQwMH0.signature
+```
+
+**Header:**
+```json
+{"alg": "RS256", "typ": "JWT", "kid": "MTg0NTkwOTUwOTYwMDA0NA"}
+```
+
+**Payload:**
+```json
+{
+  "iss": "https://example.auth0.com/",
+  "sub": "auth0|1234567890",
+  "aud": "my-api",
+  "iat": 1700000000,   // Nov 15, 2023 00:53:20 UTC
+  "exp": 1700086400    // Nov 16, 2023 00:53:20 UTC
+}
+```
+
+## Related Tools
+
+- [Text Tools](/tools/text-tools) — decode Base64 manually
+- [Smart Detector](/tools/smart-detector) — auto-detects JWTs and routes here

@@ -1,0 +1,103 @@
+---
+title: List Cleaner
+description: Deduplicate, sort, trim, and filter plain-text lists — or compare two lists to find what's different.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+List Cleaner has two modes: **Clean** (process a single list) and **Compare** (diff two lists against each other).
+
+## Clean Mode
+
+Paste a newline-separated list, enable the options you need, and get a clean output instantly.
+
+### Options
+
+| Option | Default | What it does |
+|--------|---------|-------------|
+| **Unique Only** | On | Removes duplicate lines |
+| **Trim Items** | On | Strips leading/trailing whitespace per line |
+| **Remove Empty** | On | Filters out blank lines |
+| **Case Sensitive** | Off | When off, `Apple` and `apple` count as duplicates |
+| **Sort** | None | A→Z (ascending), Z→A (descending), or unsorted |
+| **Natural Sort** | Off | Sorts numerically within strings: `file2` before `file10` |
+
+### Example
+
+**Input:**
+```
+banana
+Apple
+  cherry
+banana
+apple
+```
+
+**Settings:** Unique Only + Trim + Remove Empty + Case Insensitive + A→Z sort
+
+**Output:**
+```
+Apple
+banana
+cherry
+```
+Stats: 5 input lines → 3 unique items, 2 duplicates removed.
+
+### Natural Sort Example
+
+**Input:**
+```
+file10.log
+file2.log
+file1.log
+file20.log
+```
+
+**Natural Sort OFF (lexicographic):**
+```
+file1.log
+file10.log
+file2.log
+file20.log
+```
+
+**Natural Sort ON:**
+```
+file1.log
+file2.log
+file10.log
+file20.log
+```
+
+## Compare Mode
+
+Switch to **Compare** to find what's in one list but not the other.
+
+### Example
+
+**List 1** (production servers):
+```
+server-01
+server-02
+server-03
+server-04
+```
+
+**List 2** (monitored servers):
+```
+server-01
+server-03
+server-05
+```
+
+**Result:**
+- In List 1 — not in List 2: `server-02`, `server-04`
+- In List 2 — not in List 1: `server-05`
+
+<Aside type="tip">
+Compare mode is case-insensitive by default. Enable **Case Sensitive** if `Server-01` and `server-01` should be treated as different entries.
+</Aside>
+
+## Related Tools
+
+- [Data Formatter](/tools/data-formatter) — convert a cleaned list into SQL IN / VALUES

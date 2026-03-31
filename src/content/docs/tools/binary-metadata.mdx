@@ -1,0 +1,93 @@
+---
+title: Binary Metadata
+description: Extract EXIF, XMP, and IPTC metadata from images, PDFs, audio, and video files — powered by ExifTool running locally via WebAssembly.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Binary Metadata extracts the full metadata payload from any file that contains structured metadata — images, PDFs, audio, video — using a WebAssembly build of [ExifTool](https://exiftool.org/), the industry-standard metadata library.
+
+**Your files never leave your device.** ExifTool runs entirely in your browser via WASM.
+
+## Supported File Types
+
+| Type | Formats |
+|------|---------|
+| **Images** | JPEG, PNG, WebP, TIFF, HEIC, RAW (CR2, NEF, ARW, DNG…), GIF, BMP |
+| **Documents** | PDF |
+| **Audio** | MP3, FLAC, AAC, WAV, OGG |
+| **Video** | MP4, MOV, MKV, AVI |
+| **Vector** | SVG |
+
+## Metadata Standards
+
+| Standard | Description |
+|----------|-------------|
+| **EXIF** | Camera settings, GPS coordinates, timestamps |
+| **XMP** | Adobe-standard extensible metadata (keywords, ratings, copyright) |
+| **IPTC** | Press/editorial metadata (caption, credit, source) |
+| **ID3** | Audio tags (artist, album, track, year) |
+
+## How to Use It
+
+1. **Drop a file** onto the drop zone (or click to browse).
+2. All metadata fields appear in a searchable, grouped table.
+3. **Filter by group** (EXIF, XMP, IPTC, etc.) using the tabs.
+4. **Search** by field name or value.
+5. **Copy** individual values, or **Export JSON** for the full payload.
+
+## Example: JPEG from a DSLR
+
+Dropping a Canon DSLR photo reveals fields like:
+
+| Group | Field | Example value |
+|-------|-------|--------------|
+| EXIF | Make | `Canon` |
+| EXIF | Model | `Canon EOS R5` |
+| EXIF | DateTimeOriginal | `2024:06:15 14:32:07` |
+| EXIF | ExposureTime | `1/500` |
+| EXIF | FNumber | `f/2.8` |
+| EXIF | ISO | `400` |
+| EXIF | FocalLength | `85.0 mm` |
+| EXIF | GPSLatitude | `35.6762° N` |
+| EXIF | GPSLongitude | `139.6503° E` |
+| XMP | Rating | `4` |
+| XMP | Keywords | `portrait, outdoor, tokyo` |
+| IPTC | Copyright | `© 2024 Photographer Name` |
+
+## Example: iPhone photo
+
+| Field | Value |
+|-------|-------|
+| Make | `Apple` |
+| Model | `iPhone 15 Pro` |
+| Software | `17.4` |
+| GPSLatitude | `35.6762° N` |
+| GPSLongitude | `139.6503° E` |
+| GPSAltitude | `40.2 m` |
+| LensModel | `iPhone 15 Pro back triple camera 6.765mm f/1.78` |
+
+<Aside type="caution">
+**Privacy reminder:** JPEG photos from smartphones often contain precise GPS coordinates. Before sharing photos online, consider stripping EXIF data. Binary Metadata lets you inspect what's embedded — a future tool may add EXIF stripping.
+</Aside>
+
+## Example: PDF
+
+| Field | Value |
+|-------|-------|
+| Creator | `Microsoft Word` |
+| Author | `Jane Smith` |
+| Title | `Q4 Report 2024` |
+| CreationDate | `2024-12-01T09:00:00+09:00` |
+| ModifyDate | `2024-12-15T14:22:10+09:00` |
+| PDFVersion | `1.7` |
+| PageCount | `24` |
+
+## Export
+
+Click **Export JSON** to download all metadata as a machine-readable `.json` file — useful for automated metadata pipelines or audit logs.
+
+## Related Tools
+
+- [File Converter](/tools/file-converter) — convert image formats
+- [PDF Editor](/tools/pdf-editor) — edit PDF content

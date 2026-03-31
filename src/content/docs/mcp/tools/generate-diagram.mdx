@@ -1,0 +1,44 @@
+---
+title: generate_diagram
+description: Generate a Mermaid flowchart or sequence diagram from a plain-English description.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+## Purpose
+
+Generate a Mermaid flowchart or sequence diagram from a plain-English description.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| (see source) | — | — | — |
+
+## Return Shape
+
+```json
+{
+  "success": true,
+  "data": {},
+  "summary": "..."
+}
+```
+
+## Example
+
+### Input
+
+```json
+{}
+```
+
+### Output
+
+```json
+{ "success": true, "data": {}, "summary": "" }
+```
+
+## Notes
+
+- See `mcp/src/tools/generate-diagram.ts` for the full parameter schema.

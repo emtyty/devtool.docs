@@ -1,0 +1,122 @@
+---
+title: Data Formatter
+description: Convert a raw list of values into SQL IN clauses, VALUES rows, UNION ALL selects, JSON arrays, or CSV — with quote style and formatting options.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Data Formatter turns a messy list of IDs, emails, or strings into the SQL or data structure you need. Paste your list on the left, get formatted output on the right.
+
+## How to Use It
+
+1. **Paste your list** in the left panel. Items can be separated by newlines, commas, semicolons, tabs, or spaces — the tool figures it out.
+2. **Choose an output format** from the dropdown (SQL IN, VALUES, UNION ALL, JSON array, CSV).
+3. **Adjust options** (quote style, uppercase, clean hyphens, pretty print).
+4. **Copy the result** with the Copy button.
+
+## Input Format
+
+Any delimited list. All of these work:
+
+```
+user@example.com, admin@example.com, support@example.com
+```
+```
+1001
+1002
+1003
+1004
+```
+```
+abc-123; def-456; ghi-789
+```
+
+Duplicates are automatically removed.
+
+## Output Formats
+
+### SQL IN Clause
+```sql
+IN ('user@example.com', 'admin@example.com', 'support@example.com')
+```
+Use in a `WHERE email IN (...)` condition.
+
+### VALUES List
+```sql
+VALUES ('user@example.com'),
+('admin@example.com'),
+('support@example.com')
+```
+Use for `INSERT INTO table (email) VALUES ...`
+
+### UNION ALL Select
+```sql
+SELECT 'user@example.com' AS item
+UNION ALL SELECT 'admin@example.com'
+UNION ALL SELECT 'support@example.com'
+```
+
+### JSON Array
+```json
+["user@example.com", "admin@example.com", "support@example.com"]
+```
+
+### Raw CSV
+```
+'user@example.com', 'admin@example.com', 'support@example.com'
+```
+
+## Options
+
+| Option | What it does |
+|--------|-------------|
+| **Quote Style** | Single `'`, double `"`, or none |
+| **Uppercase** | Converts all values to UPPER CASE |
+| **Clean Hyphens** | Removes `-` characters from values |
+| **Remove Double Quotes** | Strips embedded `"` from values |
+| **Pretty Print** | Runs the output through sql-formatter for indented SQL |
+
+## Example: IDs from a spreadsheet
+
+**Input** (copied from Excel, tab-separated):
+```
+10234	10235	10236	10237	10238
+```
+
+**Output** (SQL IN, single quotes):
+```sql
+IN ('10234', '10235', '10236', '10237', '10238')
+```
+
+**Output** (VALUES, pretty print):
+```sql
+VALUES
+  ('10234'),
+  ('10235'),
+  ('10236'),
+  ('10237'),
+  ('10238')
+```
+
+## Example: Cleanup with hyphens
+
+**Input:**
+```
+abc-001
+abc-002
+abc-003
+```
+
+**Output** (Clean Hyphens ON, no quotes):
+```sql
+IN (abc001, abc002, abc003)
+```
+
+<Aside type="tip">
+The item count badge ("N ITEMS DETECTED") updates in real time. Use it to confirm your list was parsed correctly before generating SQL.
+</Aside>
+
+## Related Tools
+
+- [List Cleaner](/tools/list-cleaner) — deduplicate and sort before formatting
+- [SQL Formatter](/tools/sql-formatter) — format the generated SQL further

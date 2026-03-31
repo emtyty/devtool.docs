@@ -1,0 +1,113 @@
+---
+title: Text Compare
+description: Side-by-side text diff with line-by-line and inline word-level highlighting — using the LCS algorithm for optimal matching.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Text Compare shows exactly what changed between two text blocks, with color-coded additions, deletions, and modifications at the line and word level.
+
+## How to Use It
+
+1. Paste the **original** text in the left panel (labeled "Before").
+2. Paste the **modified** text in the right panel (labeled "After").
+3. The diff appears immediately below, color-coded.
+
+## Diff Display
+
+| Color | Meaning |
+|-------|---------|
+| Green background | Added (in After, not in Before) |
+| Red background | Removed (in Before, not in After) |
+| Amber/yellow | Changed line (present in both, but different) |
+
+Changed lines show **inline word-level diff** — individual words highlighted within the line, so you can see exactly which words were inserted or deleted.
+
+## Example
+
+**Before:**
+```
+The quick brown fox jumps over the lazy dog.
+All good things must come to an end.
+The rain in Spain stays mainly in the plain.
+```
+
+**After:**
+```
+The quick brown fox leaps over the sleepy dog.
+All good things must come to an end.
+The rain in France stays mainly in the mountains.
+```
+
+**Diff result:**
+- Line 1: `jumps` → `leaps`, `lazy` → `sleepy` (inline word highlight)
+- Line 2: unchanged
+- Line 3: `Spain` → `France`, `plain` → `mountains` (inline word highlight)
+
+## Options
+
+| Option | Effect |
+|--------|--------|
+| **Ignore whitespace** | Treats whitespace differences as no change |
+| **Ignore case** | `Hello` and `hello` count as equal |
+
+## Example: Config file diff
+
+**Before:**
+```yaml
+server:
+  host: localhost
+  port: 3000
+  debug: true
+database:
+  url: postgres://localhost/dev
+  pool: 5
+```
+
+**After:**
+```yaml
+server:
+  host: 0.0.0.0
+  port: 8080
+  debug: false
+database:
+  url: postgres://prod-db.example.com/prod
+  pool: 20
+```
+
+The diff highlights every changed value inline, making it easy to review a config change before applying it.
+
+## Example: Compare two SQL queries
+
+**Before:**
+```sql
+SELECT id, name, email
+FROM users
+WHERE active = 1
+ORDER BY name ASC
+```
+
+**After:**
+```sql
+SELECT id, name, email, created_at
+FROM users
+WHERE active = 1 AND role = 'admin'
+ORDER BY created_at DESC
+```
+
+Changes shown: added `created_at` to SELECT, added `AND role = 'admin'` to WHERE, changed `ORDER BY name ASC` to `ORDER BY created_at DESC`.
+
+## Algorithm
+
+Text Compare uses the **Longest Common Subsequence (LCS)** algorithm for line-level matching — the same algorithm used by `git diff`. For inline word-level highlighting within changed lines, it uses a hybrid word/character tokenizer.
+
+For very large diffs (40,000+ token pairs), the inline word diff is skipped to avoid performance degradation.
+
+<Aside type="tip">
+Paste two JSON blobs here to see text-level differences. For structured JSON comparison with path-based diffs, use [JSON Tools → Diff tab](/tools/json-tools) instead.
+</Aside>
+
+## Related Tools
+
+- [JSON Tools](/tools/json-tools) — structured JSON diff with path-based change tracking
+- [SQL Formatter](/tools/sql-formatter) — format both queries before comparing them

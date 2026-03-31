@@ -1,0 +1,113 @@
+---
+title: SQL Formatter
+description: Format or minify SQL with syntax highlighting — supports MySQL, PostgreSQL, SQL Server, and 18+ other dialects.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+SQL Formatter beautifies messy SQL into readable, indented code — or strips all whitespace for a compact one-liner.
+
+## Two Modes
+
+### Format
+Adds consistent indentation and line breaks using the `sql-formatter` library.
+
+**Input:**
+```sql
+select u.id,u.name,o.total from users u join orders o on o.user_id=u.id where u.active=1 order by o.total desc
+```
+
+**Output:**
+```sql
+SELECT
+  u.id,
+  u.name,
+  o.total
+FROM
+  users u
+  JOIN orders o ON o.user_id = u.id
+WHERE
+  u.active = 1
+ORDER BY
+  o.total DESC
+```
+
+### Minify
+Collapses SQL to a single line with normalized whitespace.
+
+**Input:**
+```sql
+SELECT
+  u.id,
+  u.name
+FROM
+  users u
+WHERE
+  u.active = 1
+```
+
+**Output:**
+```sql
+SELECT u.id, u.name FROM users u WHERE u.active = 1
+```
+
+## Syntax Highlighting
+
+The output panel highlights SQL with color coding:
+
+| Element | Color |
+|---------|-------|
+| Keywords (`SELECT`, `WHERE`, `JOIN`) | Blue |
+| String literals (`'value'`) | Green |
+| Numbers | Orange |
+| Variables (`@userId`) | Pink |
+| Comments (`--`, `/* */`) | Slate / italic |
+| Quoted identifiers (`[TableName]`) | Light slate |
+
+## What's Supported
+
+- SQL keywords and clauses (SELECT, FROM, WHERE, JOIN, GROUP BY, HAVING, ORDER BY…)
+- CTEs (`WITH ... AS`)
+- Subqueries
+- Window functions (`OVER (PARTITION BY ...)`)
+- String literals with single-quote escaping (`''`)
+- T-SQL variables (`@varName`)
+- Quoted identifiers (`[Column Name]`, `` `backtick` ``, `"double"`)
+- Line comments (`-- comment`) and block comments (`/* comment */`)
+
+## Example: Complex Query
+
+**Input (unformatted):**
+```sql
+with ranked as (select id,name,salary,row_number() over(partition by dept_id order by salary desc) as rn from employees where active=1) select * from ranked where rn<=3
+```
+
+**Output (formatted):**
+```sql
+WITH ranked AS (
+  SELECT
+    id,
+    name,
+    salary,
+    ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rn
+  FROM
+    employees
+  WHERE
+    active = 1
+)
+SELECT
+  *
+FROM
+  ranked
+WHERE
+  rn <= 3
+```
+
+<Aside type="tip">
+If formatting produces `-- Error formatting SQL --`, the input contains syntax the formatter doesn't recognize. Switch to Minify mode to at least normalize the whitespace.
+</Aside>
+
+## Related Tools
+
+- [Data Formatter](/tools/data-formatter) — generate SQL IN / VALUES from a list
+- [Query Plan Viewer](/tools/query-plan-viewer) — analyze a SQL Server execution plan

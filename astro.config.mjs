@@ -5,8 +5,6 @@ import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 
 export default defineConfig({
-  base: '/docs',
-  outDir: './dist',
   adapter: cloudflare(),
   integrations: [
     starlight({

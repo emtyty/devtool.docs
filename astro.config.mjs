@@ -8,6 +8,7 @@ const WEBSITE_URL = 'https://coding4pizza.com';
 export default defineConfig({
   site: WEBSITE_URL,
   base: "/docs",
+  outDir: 'dist/docs',
   integrations: [
     starlight({
       plugins: [starlightImageZoom()],

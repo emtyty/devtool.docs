@@ -3,7 +3,11 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
+  // Uncomment for GitHub Pages subpath deployment:
+  // base: '/devtool',
   integrations: [
     starlight({
       plugins: [starlightImageZoom()],
@@ -167,6 +171,7 @@ export default defineConfig({
       ],
     }),
   ],
-  // Uncomment for GitHub Pages subpath deployment:
-  // base: '/devtool',
+
+  output: "hybrid",
+  adapter: cloudflare()
 });

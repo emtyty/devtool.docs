@@ -7,14 +7,14 @@ import { Aside } from '@astrojs/starlight/components';
 
 JSON Extractor lets you pull a specific field from every item in a JSON array using a dot-notation path, then copy the result as a plain list for use in SQL, code, or other tools.
 
-![JSON Extractor Tool Demonstration](/tools/json-extractor.webp)
+![JSON Extractor Tool Demonstration](tools/json-extractor.webp)
 
 ## How to Use It
 
 1. Paste your JSON in the left panel.
 2. Enter a dot-notation path (e.g. `user.id`).
 3. The right panel shows all matching values, one per line.
-4. Copy and paste into [Data Formatter](/tools/data-formatter) to turn it into SQL IN / VALUES.
+4. Copy and paste into [Data Formatter](tools/data-formatter) to turn it into SQL IN / VALUES.
 
 ## Path Syntax
 
@@ -97,7 +97,7 @@ Carol
 2. Paste into JSON Extractor
 3. Enter path `data.id`
 4. Copy the resulting list of IDs
-5. Open [Data Formatter](/tools/data-formatter)
+5. Open [Data Formatter](tools/data-formatter)
 6. Paste the IDs → output: `IN ('id1', 'id2', 'id3')`
 
 <Aside type="tip">
@@ -106,5 +106,5 @@ If your path returns array values, each array element is listed as a separate li
 
 ## Related Tools
 
-- [JSON Tools](/tools/json-tools) — format, repair, and inspect JSON before extracting
-- [Data Formatter](/tools/data-formatter) — convert the extracted list to SQL
+- [JSON Tools](tools/json-tools) — format, repair, and inspect JSON before extracting
+- [Data Formatter](tools/data-formatter) — convert the extracted list to SQL

@@ -7,7 +7,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 Log Analyzer parses raw log files from any common format, normalizes log levels, and lets you filter by level and keyword. The timeline bar chart gives you an at-a-glance view of error distribution over time.
 
-![Log Analyzer Tool Demonstration](/tools/log-analyzer.webp)
+![Log Analyzer Tool Demonstration](tools/log-analyzer.webp)
 
 ## Supported Log Formats
 
@@ -85,7 +85,7 @@ This becomes a single ERROR entry with the full stack trace as the message body.
 The chart groups log entries by time bucket and shows the count per level (ERROR, WARN, INFO). Useful for spotting when incidents started and how long they lasted.
 
 <Aside type="tip">
-For stack traces embedded in log files, switch to [Stack Trace Formatter](/tools/stack-trace-formatter) to get syntax-highlighted frame output with user-code filtering.
+For stack traces embedded in log files, switch to [Stack Trace Formatter](tools/stack-trace-formatter) to get syntax-highlighted frame output with user-code filtering.
 </Aside>
 
 ## Performance
@@ -94,5 +94,5 @@ Log Analyzer uses virtual scrolling (row height 32px, 10-row overscan) — files
 
 ## Related Tools
 
-- [Stack Trace Formatter](/tools/stack-trace-formatter) — parse individual stack traces from logs
-- [Network Waterfall Analyzer](/tools/network-waterfall-analyzer) — analyze HTTP request logs from HAR files
+- [Stack Trace Formatter](tools/stack-trace-formatter) — parse individual stack traces from logs
+- [Network Waterfall Analyzer](tools/network-waterfall-analyzer) — analyze HTTP request logs from HAR files

@@ -16,9 +16,9 @@ export default defineConfig({
         src: './src/assets/logo.svg',
         replacesTitle: false,
       },
-      social: {
-        github: 'https://github.com/emtyty/devtool',
-      },
+      social: [
+        { label: 'GitHub', icon: 'github', href: 'https://github.com/emtyty/devtool' }
+      ],
       editLink: {
         baseUrl: 'https://github.com/emtyty/devtool/edit/main/docs/',
       },

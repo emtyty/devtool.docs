@@ -22,9 +22,6 @@ export default defineConfig({
       social: [
         { label: 'GitHub', icon: 'github', href: 'https://github.com/emtyty/devtool' }
       ],
-      editLink: {
-        baseUrl: 'https://github.com/emtyty/devtool/edit/main/docs/',
-      },
       customCss: ['./src/styles/custom.css'],
       sidebar: [
         // ── GETTING STARTED ─────────────────────────────────────────────

@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
 
@@ -8,7 +7,6 @@ import starlightImageZoom from 'starlight-image-zoom';
 const WEBSITE_URL = 'https://coding4pizza.com';
 export default defineConfig({
   site: WEBSITE_URL,
-  adapter: cloudflare(),
   integrations: [
     starlight({
       plugins: [starlightImageZoom()],
